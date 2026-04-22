@@ -1,0 +1,11 @@
+{
+  "name": "wds-claude-design",
+  "version": "0.0.0",
+  "private": true,
+  "description": "WDS (우리가 Design System) — canonical design system codebase. Targets elderly-focused service with 3-tier typography scale (normal / large / x-large).",
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck"
+  }
+}

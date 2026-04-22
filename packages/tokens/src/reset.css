@@ -1,0 +1,13 @@
+/* Minimal reset. Intentionally small for Phase 0-pre spike. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  /* WDS primary font is Pretendard (DS Font Family token). */
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  line-height: 1.5;
+}
