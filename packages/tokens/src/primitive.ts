@@ -1,5 +1,5 @@
 /**
- * WDS Primitive Tokens (V1, Figma var-set `3003:11976`) — 104 values
+ * WDS Primitive Tokens (V1, Figma var-set `3003:11976`)
  *
  * INTERNAL IMPLEMENTATION. Do NOT import this from components.
  * Components must consume tokens through `./alias` (or the package root).
@@ -7,8 +7,13 @@
  * primitive layer is the single source of raw values.
  *
  * Source of truth: Figma Variables export, 2026-04-22 (WDS v1.2.0).
- * Palette groups preserved: blue, red, orange, green, navy, purple,
- * gray (Neutral colors), coolgray (Cool Neutral), neutralA (Alpha colors).
+ * Palette groups: blue, red, orange, green, navy, purple,
+ * gray (Neutral colors), coolgray (Cool Neutral), neutralA (Alpha colors),
+ * chart (Chart color).
+ *
+ * Neutral gray hex values are derived from Figma HSLA sources
+ * (see inline `// hsla(...)` comments) and may differ by ±1 unit
+ * from the older repo values.
  */
 export const primitive = {
   color: {
@@ -84,27 +89,27 @@ export const primitive = {
       800: "#333AA0",
       900: "#30377F",
     },
-    /** Neutral colors group. */
+    /** Neutral colors group. Hex derived from Figma HSLA values. */
     gray: {
       white: "#FFFFFF",
       50:   "#F7F8F9",
       100:  "#F3F4F5",
       200:  "#EEEFF1",
-      300:  "#DFDFE0",
-      400:  "#C7C8C9",
+      300:  "#E0E0E1", // hsla(240, 2%, 88%, 1)
+      400:  "#C6C7C8", // hsla(210, 2%, 78%, 1)
       500:  "#B0B3BA",
-      600:  "#9B9B9B",
-      700:  "#858588",
-      800:  "#47484C",
-      900:  "#2A2A2A",
-      1000: "#171719",
+      600:  "#9C9C9C", // hsla(0, 0%, 61%, 1)
+      700:  "#868688", // hsla(240, 1%, 53%, 1)
+      800:  "#48494C", // hsla(228, 3%, 29%, 1)
+      900:  "#292929", // hsla(0, 0%, 16%, 1)
+      1000: "#161618", // hsla(240, 4%, 9%, 1)
       black: "#000000",
     },
     /** Cool Neutral group — darker / colder gray scale. */
     coolgray: {
       5:  "#0F0F10",
       7:  "#141415",
-      10: "#171719",
+      10: "#16171A", // hsla(240, 4%, 9%, 1)
       15: "#1B1C1E",
       17: "#212225",
       20: "#292A2D",
@@ -124,17 +129,31 @@ export const primitive = {
       98: "#F4F4F5",
       99: "#F7F7F8",
     },
-    /** Alpha colors group — transparent black overlays. 8-digit hex (#RRGGBBAA). */
+    /** Alpha colors group — transparent black overlays. 8-digit hex (#RRGGBBAA) = hsla(0,0%,0%,n). */
     neutralA: {
-      10: "#0000001A", //  10% black
+      10: "#0000001A", //  10% black — hsla(0,0%,0%,0.1)
       20: "#00000033", //  20% black
       30: "#0000004D", //  30% black
       40: "#00000066", //  40% black
       50: "#00000080", //  50% black
       60: "#00000099", //  60% black
-      70: "#000000B2", //  70% black
+      70: "#000000B3", //  70% black — hsla(0,0%,0%,0.7)
       80: "#000000CC", //  80% black
-      90: "#000000E5", //  90% black
+      90: "#000000E6", //  90% black — hsla(0,0%,0%,0.9)
+    },
+    /** Chart colors group — 11-step categorical palette for data visualization. Figma: `Chart color`. */
+    chart: {
+      1:  "#18A19A",  // = green.500
+      2:  "#E37570",
+      3:  "#EDA942",
+      4:  "#8BD17D",
+      5:  "#61A4EC",
+      6:  "#887BE9",
+      7:  "#3C4BA5",
+      8:  "#D9874B",
+      9:  "#CF778B",
+      10: "#A68673",
+      11: "#C4C4C4",
     },
   },
 } as const;

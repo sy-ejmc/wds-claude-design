@@ -33,6 +33,7 @@ import { color, padding, margin, radius, height, typography } from "@wds/tokens"
 // Color aliases (V2)
 color.primary.normal            // green-500 — brand / CTA
 color.primary.light             // green-100
+color.primary.alternative       // green-100 (alias of .light)
 color.primary.strong            // green-700
 color.primary.heavy             // green-900
 color.background["bg-white"]    // neutral white
@@ -40,14 +41,15 @@ color.background["bg-50"]       // gray-50
 color.label.strong              // black
 color.label.normal              // gray-1000 — body text default
 color.label.alternative         // gray-700
+color.label.disable             // gray-300 (Figma "label-disabled")
 color.label.white               // white (dark-on-light inverse)
 color.fill.normal               // coolgray-98 — muted surface
 color.fill.strong               // coolgray-96
 color.line.normal               // coolgray-95 — border default
 color.icon.strong               // gray-1000
-color.icon.Disable              // gray-600
+color.icon.disable              // gray-600
 color.status.success / warning / error / info
-color.interaction.Inactive / Disable
+color.interaction.inactive / disable
 color["OS-Indicator"]
 
 // Spacing & sizing aliases (V3) — px, DS-C1

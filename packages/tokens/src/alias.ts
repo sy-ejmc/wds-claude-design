@@ -1,6 +1,7 @@
 /**
  * WDS Alias Tokens (V2, Figma var-set `3003:11912`) — 33 color aliases
  * + V3 Spacing & Sizing aliases (padding / margin / radius / height) — 23
+ * + V4 Shadow (Effect Styles) — 4
  * + V5 Typography (size / lineHeight / weight / letterSpacing / fontFamily)
  *
  * PUBLIC INTERFACE for components. Aliases preserve the Figma group →
@@ -30,10 +31,11 @@ import { primitive } from "./primitive";
 export const color = {
   /** Brand / CTA — driven by green palette. */
   primary: {
-    normal: primitive.color.green[500],   // Figma: `primary-nomal` (typo)
-    light:  primitive.color.green[100],
-    strong: primitive.color.green[700],
-    heavy:  primitive.color.green[900],
+    normal:      primitive.color.green[500],   // Figma: `primary-nomal` (typo)
+    light:       primitive.color.green[100],
+    alternative: primitive.color.green[100],   // alias of `.light`; matches Claude Design's vocabulary for "secondary primary fill"
+    strong:      primitive.color.green[700],
+    heavy:       primitive.color.green[900],
   },
 
   /** Background surfaces. */
@@ -51,13 +53,13 @@ export const color = {
     neutral:     primitive.color.gray[800],
     alternative: primitive.color.gray[700],
     assistive:   primitive.color.gray[400],
-    disabled:    primitive.color.gray[300],
+    disable:     primitive.color.gray[300], // Figma: `label-disabled` — code-side normalizes to .disable for consistency with interaction/icon
     white:       primitive.color.gray.white, // Figma chain: label-white → Icon-white → gray.white
   },
 
   /** Fill (muted surfaces for chips, segmented controls, etc.). */
   fill: {
-    normal:      primitive.color.coolgray[98], // Figma: `fill- strong` lookalike — source says `fill-nomal`
+    normal:      primitive.color.coolgray[98], // Figma: `fill/nomal`
     strong:      primitive.color.coolgray[96],
     alternative: primitive.color.coolgray[99],
   },
@@ -69,18 +71,18 @@ export const color = {
     alternative: primitive.color.coolgray[99],
   },
 
-  /** Interaction states. */
+  /** Interaction states. Figma capitalizes (`Interaction-Inactive`); code-side lowercases for a consistent alias-key style. */
   interaction: {
-    Inactive: primitive.color.coolgray[70], // Figma caps: `Interaction-Inactive`
-    Disable:  primitive.color.coolgray[98],
+    inactive: primitive.color.coolgray[70],
+    disable:  primitive.color.coolgray[98],
   },
 
-  /** Icon layer. */
+  /** Icon layer. Figma caps (`Icon-Disable`) normalized to lowercase. */
   icon: {
     strong:      primitive.color.gray[1000],
     default:     primitive.color.gray[800],
     alternative: primitive.color.gray[700],
-    Disable:     primitive.color.gray[600], // Figma caps: `Icon-Disable`
+    disable:     primitive.color.gray[600],
     white:       primitive.color.gray.white,
   },
 
@@ -164,6 +166,31 @@ export const height = {
 } as const;
 
 /* ------------------------------------------------------------------ */
+/* V4. Shadow (Effect Styles — Figma group `Shadows`)                 */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Shadow tokens. Figma Effect Styles group `Shadows` ships 4 steps.
+ *
+ * Progression is **not** strictly monotonic in opacity — Shadow-2 is a
+ * softer, flatter shadow (5% alpha) intentionally lighter than Shadow-1,
+ * while Shadow-3/4 grow in spread + y-offset for lifted surfaces (modals,
+ * popovers, floating sheets).
+ *
+ * Usage guide:
+ *   shadow[1] — pressed / resting card edge
+ *   shadow[2] — subtle hover lift on fills
+ *   shadow[3] — floating elements (popovers, dropdowns)
+ *   shadow[4] — modals, sheets, highest elevation
+ */
+export const shadow = {
+  1: "0 2px 4px 0 rgba(0, 0, 0, 0.10)",
+  2: "0 4px 5px 0 rgba(0, 0, 0, 0.05)",
+  3: "0 8px 24px 0 rgba(0, 0, 0, 0.10)",
+  4: "0 12px 48px 0 rgba(0, 0, 0, 0.10)",
+} as const;
+
+/* ------------------------------------------------------------------ */
 /* V5. Typography (tier-dependent sizes/line-heights via CSS vars)    */
 /* ------------------------------------------------------------------ */
 
@@ -214,4 +241,39 @@ export const typography = {
   letterSpacing: "0px",
   /** Figma: Font Family group — tier-invariant. */
   fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif',
+} as const;
+
+/* ------------------------------------------------------------------ */
+/* V6. Brand                                                          */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Brand — WOORIGA CI.
+ *
+ * The brand system consists of a symbol (house + person mark) and a
+ * wordmark ("WOORIGA"). Both can be used independently but pair best
+ * together with the clearspace rule below.
+ *
+ *   brand.symbol       — SVG asset path (ships as /assets/wooriga-symbol.svg)
+ *   brand.symbolColor  — canonical fill (Primary Normal #009688)
+ *   brand.wordmark     — type spec for the text wordmark
+ *   brand.clearspace   — minimum padding around the full lockup,
+ *                        expressed as a ratio of the symbol's height
+ *                        (x = 0.5h per the CI doc).
+ *   brand.minSize      — smallest legible render (symbol height in px)
+ */
+export const brand = {
+  symbol: "/assets/wooriga-symbol.svg",
+  symbolColor: color.primary.normal, // #009688
+  wordmark: {
+    family: '"Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+    weight: 800,
+    tracking: "-0.04em",
+  },
+  clearspace: 0.5, // ratio of symbol height
+  minSize: {
+    symbol:   20, // px
+    wordmark: 14, // px cap height
+    lockup:   24, // px symbol height when paired
+  },
 } as const;

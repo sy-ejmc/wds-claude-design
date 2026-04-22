@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>Selection Card — WDS</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{padding:40px 32px;background:#fafbfc}
+  .page{max-width:1100px;margin:0 auto;display:grid;gap:40px}
+  header h1{font-size:28px;line-height:36px;font-weight:var(--font-weight-B)}
+  header p{margin-top:6px;color:var(--color-label-alternative);font-size:14px;line-height:20px}
+  code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--color-primary-light);border-radius:4px;padding:1px 6px;color:var(--color-primary-strong)}
+  section.group{background:#fff;border:1px solid var(--color-line-normal);border-radius:12px;padding:28px}
+  .group>h2{font-size:16px;line-height:24px;font-weight:var(--font-weight-B);margin-bottom:4px}
+  .group>.sub{font-size:13px;color:var(--color-label-alternative);margin-bottom:20px}
+
+  .sc{display:flex;align-items:center;gap:12px;border-radius:8px;border:1px solid var(--color-line-normal);background:#fff;cursor:pointer;font-family:var(--font-family);padding:16px;appearance:none;-webkit-appearance:none;text-align:left;width:100%}
+  .sc .radio{width:24px;height:24px;border-radius:999px;border:2px solid var(--color-line-normal);flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff}
+  .sc .radio::after{content:'';width:10px;height:10px;border-radius:999px;background:transparent}
+  .sc .body{display:grid;gap:4px;flex:1}
+  .sc .body b{font-size:16px;line-height:24px;font-weight:var(--font-weight-B);color:var(--color-label-normal)}
+  .sc .body span{font-size:14px;line-height:22px;color:var(--color-label-alternative)}
+
+  /* Large (82h) */
+  .sc-L{min-height:82px}
+  /* Small (56h) — title only, centered */
+  .sc-S{height:56px;justify-content:center;padding:16px 8px;width:175px}
+  .sc-S .body b{text-align:center}
+  .sc-S .body span{display:none}
+  /* XSmall (40h) */
+  .sc-XS{height:40px;padding:8px;width:93px;justify-content:center}
+  .sc-XS .radio{width:24px;height:24px;border-width:1.6px}
+  .sc-XS .body b{font-size:14px;line-height:20px;text-align:center}
+  .sc-XS .body span{display:none}
+
+  /* States */
+  .sc.active{border-color:var(--color-primary-normal)}
+  .sc.active .radio{border-color:var(--color-primary-normal);background:var(--color-primary-normal)}
+  .sc.active .radio::after{background:#fff}
+  .sc.active .body b{color:rgb(41,151,141)}
+
+  .sc.inactive{background:rgb(244,244,245)}
+  .sc.inactive .body b, .sc.inactive .body span{color:rgb(71,72,76)}
+
+  .sc:disabled, .sc.disabled{cursor:not-allowed;opacity:0.6}
+
+  .grid{display:grid;gap:12px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start}
+  .row-label{font-size:12px;color:var(--color-label-alternative);font-weight:var(--font-weight-SB);width:96px;flex-shrink:0;padding-top:12px}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;color:var(--color-label-alternative)}
+</style></head><body>
+<div class="page">
+<header>
+  <h1>Selection Card Button</h1>
+  <p>라디오 선택형 카드 버튼. Figma <code>Size=Large/Small/XSmall × State=Default/Active/Inactive</code> 1:1 스펙 · radius 8 · border 1px · 라디오 아이콘 내장.</p>
+</header>
+
+<section class="group">
+  <h2>Size=Large · 324×82</h2>
+  <div class="sub">제목 + 부연설명 텍스트 포함 · 설문/약관동의/플랜 선택 등에 사용</div>
+  <div class="grid" style="max-width:324px">
+    <button class="sc sc-L"><span class="radio"></span><span class="body"><b>선택항목</b><span>선택지에 대한 부연설명 텍스트 영역입니다.</span></span></button>
+    <button class="sc sc-L active"><span class="radio"></span><span class="body"><b>선택항목</b><span>선택지에 대한 부연설명 텍스트 영역입니다.</span></span></button>
+    <button class="sc sc-L inactive" disabled><span class="radio"></span><span class="body"><b>선택항목</b><span>선택지에 대한 부연설명 텍스트 영역입니다.</span></span></button>
+  </div>
+  <div class="legend" style="margin-top:16px"><span>위에서부터: Default · Active · Inactive</span></div>
+</section>
+
+<section class="group">
+  <h2>Size=Small · 175×56</h2>
+  <div class="sub">제목만 · 2열 선택지에 적합</div>
+  <div class="row">
+    <div class="row-label">Default</div>
+    <div style="display:flex;gap:12px"><button class="sc sc-S"><span class="radio"></span><span class="body"><b>선택항목</b></span></button><button class="sc sc-S"><span class="radio"></span><span class="body"><b>선택항목</b></span></button></div>
+  </div>
+  <div class="row">
+    <div class="row-label">Active</div>
+    <div style="display:flex;gap:12px"><button class="sc sc-S active"><span class="radio"></span><span class="body"><b>선택항목</b></span></button><button class="sc sc-S"><span class="radio"></span><span class="body"><b>선택항목</b></span></button></div>
+  </div>
+  <div class="row">
+    <div class="row-label">Inactive</div>
+    <div style="display:flex;gap:12px"><button class="sc sc-S inactive" disabled><span class="radio"></span><span class="body"><b>선택항목</b></span></button><button class="sc sc-S inactive" disabled><span class="radio"></span><span class="body"><b>선택항목</b></span></button></div>
+  </div>
+</section>
+
+<section class="group">
+  <h2>Size=XSmall · 93×40</h2>
+  <div class="sub">컴팩트 chip-style · 필터나 3열 이상 선택지에 적합</div>
+  <div class="row">
+    <div class="row-label">Default</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="sc sc-XS"><span class="body"><b>선택항목</b></span></button><button class="sc sc-XS"><span class="body"><b>선택항목</b></span></button><button class="sc sc-XS"><span class="body"><b>선택항목</b></span></button></div>
+  </div>
+  <div class="row">
+    <div class="row-label">Active</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="sc sc-XS active"><span class="body"><b>선택항목</b></span></button><button class="sc sc-XS"><span class="body"><b>선택항목</b></span></button><button class="sc sc-XS"><span class="body"><b>선택항목</b></span></button></div>
+  </div>
+  <div class="row">
+    <div class="row-label">Inactive</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="sc sc-XS inactive" disabled><span class="body"><b>선택항목</b></span></button><button class="sc sc-XS inactive" disabled><span class="body"><b>선택항목</b></span></button></div>
+  </div>
+</section>
+
+<section class="group">
+  <h2>토큰 매핑</h2>
+  <div class="legend">
+    <span><code>--color-primary-normal</code> → Active border · radio dot bg · 강조 title</span>
+    <span><code>--color-line-normal</code> → Default border · radio ring</span>
+    <span><code>rgb(244,244,245)</code> → Inactive bg</span>
+    <span><code>--radius-s</code> (8) → card corner</span>
+  </div>
+</section>
+</div></body></html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Block Button — WDS</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { padding: 40px 32px; background: #fafbfc; }
+  .page { max-width: 1100px; margin: 0 auto; display: grid; gap: 40px; }
+  header h1 { font-size: 28px; line-height: 36px; font-weight: var(--font-weight-B); }
+  header p  { margin-top: 6px; color: var(--color-label-alternative); font-size: 14px; line-height: 20px; }
+
+  section.group {
+    background: #fff;
+    border: 1px solid var(--color-line-normal);
+    border-radius: 12px;
+    padding: 28px 28px 32px;
+  }
+  .group > h2 {
+    font-size: 16px; line-height: 24px; font-weight: var(--font-weight-B);
+    color: var(--color-label-normal);
+    margin-bottom: 4px;
+  }
+  .group > .sub {
+    font-size: 13px; line-height: 20px; color: var(--color-label-alternative);
+    margin-bottom: 20px;
+  }
+
+  /* matrix layout: 4 size columns × N state rows */
+  .matrix {
+    display: grid;
+    grid-template-columns: 80px repeat(4, 1fr);
+    column-gap: 16px;
+    row-gap: 18px;
+    align-items: center;
+  }
+  .matrix .col-head {
+    font-size: 12px; line-height: 16px;
+    color: var(--color-label-assistive);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: var(--font-weight-SB);
+  }
+  .matrix .row-head {
+    font-size: 12px; line-height: 16px;
+    color: var(--color-label-alternative);
+    font-weight: var(--font-weight-SB);
+  }
+  .matrix .cell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /* ── Block Button — 1:1 Figma spec ───────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-B); /* 700 */
+    letter-spacing: -0.025em;
+    cursor: pointer;
+    user-select: none;
+    padding: 0;
+    white-space: nowrap;
+    -webkit-appearance: none; appearance: none;
+  }
+  .btn:disabled { cursor: not-allowed; }
+  .btn svg { display: block; flex-shrink: 0; }
+
+  /* sizes */
+  .btn-L  { height: 56px; padding: 0 16px; font-size: 16px; line-height: 24px; }
+  .btn-M  { height: 36px; padding: 0 12px; font-size: 14px; line-height: 20px; }
+  .btn-S  { height: 32px; padding: 0 8px;  font-size: 14px; line-height: 16px; gap: 2px; }
+  .btn-XS { height: 28px; padding: 0 6px;  font-size: 14px; line-height: 16px; gap: 2px; }
+  .btn-L  svg { width: 24px; height: 24px; }
+  .btn-M  svg { width: 16px; height: 16px; }
+  .btn-S  svg { width: 16px; height: 16px; }
+  .btn-XS svg { width: 14px; height: 14px; }
+
+  /* variants × states */
+  .btn-primary            { background: var(--color-primary-normal); color: var(--color-label-white); }
+  .btn-primary-outline    { background: #fff; color: var(--color-primary-normal); border-color: var(--color-primary-normal); }
+  .btn-secondary          { background: var(--color-primary-light);  color: var(--color-primary-strong); }
+  .btn-neutral            { background: var(--color-interaction-disable); color: var(--color-label-strong); border-color: var(--color-line-normal); }
+  .btn-neutral-outline    { background: #fff; color: var(--color-label-strong); border-color: var(--color-line-normal); }
+  .btn-disabled           { background: var(--color-interaction-disable); color: var(--color-label-disable); }
+
+  /* legend chips */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px 14px;
+    font-size: 12px; line-height: 16px;
+    color: var(--color-label-alternative);
+    margin-top: 4px;
+  }
+  .legend code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 11px;
+    background: var(--color-interaction-disable);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--color-label-normal);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Block Button</h1>
+  <p>가장 중요한 primary action control. Figma <code style="font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#eef7f6;padding:1px 6px;border-radius:4px;color:var(--color-primary-strong)">Button / Block-Button</code> 1:1 재현 — tokens from <code style="font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#eef7f6;padding:1px 6px;border-radius:4px;color:var(--color-primary-strong)">colors_and_type.css</code>.</p>
+</header>
+
+<!-- ═══════════════ Primary ═══════════════ -->
+<section class="group">
+  <h2>Primary</h2>
+  <div class="sub">주요 CTA · bg <code>primary.normal</code> #18A19A · fg <code>label.white</code> · radius 8</div>
+
+  <div class="matrix">
+    <div class="col-head"></div>
+    <div class="col-head">Size L · 56</div>
+    <div class="col-head">Size M · 36</div>
+    <div class="col-head">Size S · 32</div>
+    <div class="col-head">Size XS · 28</div>
+
+    <!-- Default -->
+    <div class="row-head">Default</div>
+    <div class="cell"><button class="btn btn-primary btn-L">확인</button></div>
+    <div class="cell"><button class="btn btn-primary btn-M">확인</button></div>
+    <div class="cell"><button class="btn btn-primary btn-S">확인</button></div>
+    <div class="cell"><button class="btn btn-primary btn-XS">확인</button></div>
+
+    <!-- Default + leading icon -->
+    <div class="row-head">+ leading icon</div>
+    <div class="cell"><button class="btn btn-primary btn-L"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>추가하기</button></div>
+    <div class="cell"><button class="btn btn-primary btn-M"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>추가하기</button></div>
+    <div class="cell"><button class="btn btn-primary btn-S"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>추가</button></div>
+    <div class="cell"><button class="btn btn-primary btn-XS"><svg viewBox="0 0 14 14" fill="none"><path d="M7 2.5v9M2.5 7h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>추가</button></div>
+
+    <!-- Default + trailing icon -->
+    <div class="row-head">+ trailing icon</div>
+    <div class="cell"><button class="btn btn-primary btn-L">다음 단계<svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    <div class="cell"><button class="btn btn-primary btn-M">다음<svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    <div class="cell"><button class="btn btn-primary btn-S">다음<svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    <div class="cell"><button class="btn btn-primary btn-XS">다음<svg viewBox="0 0 14 14" fill="none"><path d="M5.5 3.5l3.5 3.5-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+
+    <!-- Outline -->
+    <div class="row-head">Outline</div>
+    <div class="cell"><button class="btn btn-primary-outline btn-L">확인</button></div>
+    <div class="cell"><button class="btn btn-primary-outline btn-M">확인</button></div>
+    <div class="cell"><button class="btn btn-primary-outline btn-S">확인</button></div>
+    <div class="cell"><button class="btn btn-primary-outline btn-XS">확인</button></div>
+
+    <!-- Disabled -->
+    <div class="row-head">Disabled</div>
+    <div class="cell"><button class="btn btn-disabled btn-L" disabled>확인</button></div>
+    <div class="cell"><button class="btn btn-disabled btn-M" disabled>확인</button></div>
+    <div class="cell"><button class="btn btn-disabled btn-S" disabled>확인</button></div>
+    <div class="cell"><button class="btn btn-disabled btn-XS" disabled>확인</button></div>
+  </div>
+</section>
+
+<!-- ═══════════════ Secondary ═══════════════ -->
+<section class="group">
+  <h2>Secondary</h2>
+  <div class="sub">보조 액션 · bg <code>primary.light</code> #EEF7F6 · fg <code>primary.strong</code> #168B88</div>
+
+  <div class="matrix">
+    <div class="col-head"></div>
+    <div class="col-head">Size L · 56</div>
+    <div class="col-head">Size M · 36</div>
+    <div class="col-head">Size S · 32</div>
+    <div class="col-head">Size XS · 28</div>
+
+    <div class="row-head">Default</div>
+    <div class="cell"><button class="btn btn-secondary btn-L">확인</button></div>
+    <div class="cell"><button class="btn btn-secondary btn-M">확인</button></div>
+    <div class="cell"><button class="btn btn-secondary btn-S">확인</button></div>
+    <div class="cell"><button class="btn btn-secondary btn-XS">확인</button></div>
+
+    <div class="row-head">+ leading icon</div>
+    <div class="cell"><button class="btn btn-secondary btn-L"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>추가하기</button></div>
+    <div class="cell"><button class="btn btn-secondary btn-M"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>추가하기</button></div>
+    <div class="cell"><button class="btn btn-secondary btn-S"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>추가</button></div>
+    <div class="cell"><button class="btn btn-secondary btn-XS"><svg viewBox="0 0 14 14" fill="none"><path d="M7 2.5v9M2.5 7h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>추가</button></div>
+
+    <div class="row-head">Disabled</div>
+    <div class="cell"><button class="btn btn-disabled btn-L" disabled>확인</button></div>
+    <div class="cell"><button class="btn btn-disabled btn-M" disabled>확인</button></div>
+    <div class="cell"><button class="btn btn-disabled btn-S" disabled>확인</button></div>
+    <div class="cell"><button class="btn btn-disabled btn-XS" disabled>확인</button></div>
+  </div>
+</section>
+
+<!-- ═══════════════ Neutral ═══════════════ -->
+<section class="group">
+  <h2>Neutral</h2>
+  <div class="sub">중립 액션 · bg <code>interaction.disable</code> #F3F4F5 · fg <code>label.strong</code> #444 · border <code>line.normal</code> #EEEFF1</div>
+
+  <div class="matrix">
+    <div class="col-head"></div>
+    <div class="col-head">Size L · 56</div>
+    <div class="col-head">Size M · 36</div>
+    <div class="col-head">Size S · 32</div>
+    <div class="col-head">Size XS · 28</div>
+
+    <div class="row-head">Default</div>
+    <div class="cell"><button class="btn btn-neutral btn-L">취소</button></div>
+    <div class="cell"><button class="btn btn-neutral btn-M">취소</button></div>
+    <div class="cell"><button class="btn btn-neutral btn-S">취소</button></div>
+    <div class="cell"><button class="btn btn-neutral btn-XS">취소</button></div>
+
+    <div class="row-head">Outline</div>
+    <div class="cell"><button class="btn btn-neutral-outline btn-L">취소</button></div>
+    <div class="cell"><button class="btn btn-neutral-outline btn-M">취소</button></div>
+    <div class="cell"><button class="btn btn-neutral-outline btn-S">취소</button></div>
+    <div class="cell"><button class="btn btn-neutral-outline btn-XS">취소</button></div>
+
+    <div class="row-head">Disabled</div>
+    <div class="cell"><button class="btn btn-disabled btn-L" disabled>취소</button></div>
+    <div class="cell"><button class="btn btn-disabled btn-M" disabled>취소</button></div>
+    <div class="cell"><button class="btn btn-disabled btn-S" disabled>취소</button></div>
+    <div class="cell"><button class="btn btn-disabled btn-XS" disabled>취소</button></div>
+  </div>
+</section>
+
+<!-- ═══════════════ Tokens reference ═══════════════ -->
+<section class="group">
+  <h2>토큰 매핑</h2>
+  <div class="sub">컴포넌트에 적용된 디자인 토큰 (from <code>colors_and_type.css</code>)</div>
+
+  <div class="legend">
+    <span><code>--color-primary-normal</code> → Primary bg · Outline border/text</span>
+    <span><code>--color-primary-strong</code> → Secondary text</span>
+    <span><code>--color-primary-light</code> → Secondary bg</span>
+    <span><code>--color-interaction-disable</code> → Neutral bg · Disabled bg</span>
+    <span><code>--color-line-normal</code> → Neutral border</span>
+    <span><code>--color-label-strong</code> → Neutral text</span>
+    <span><code>--color-label-disable</code> → Disabled text</span>
+    <span><code>--color-label-white</code> → Primary text</span>
+    <span><code>--radius-s</code> (8) → 모든 사이즈 corner radius</span>
+    <span><code>--font-weight-B</code> (700) → 모든 버튼 텍스트</span>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

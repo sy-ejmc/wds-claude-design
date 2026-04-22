@@ -1,0 +1,192 @@
+/**
+ * WDS — 우리가 Design System
+ * Colors & Typography foundation (v1.2.0 — 2026-04-22)
+ *
+ * Mirrors `packages/tokens/src/primitive.ts` + `alias.ts`.
+ * For the 3-tier typography scale (일반 / 크게 / 더 크게), see below.
+ *
+ * DS-C1: spacing/padding/margin/radius are px-based.
+ * DS-C2: font-size is rem-based (propagates via data-typography-scale).
+ * DS-C3: 3-tier scale via html[data-typography-scale].
+ *
+ * Primitive naming is PRESERVED from Figma (e.g. --wds-primary-normal
+ * mirrors `color.primary.normal`, typo `primary-nomal` normalized).
+ */
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
+
+:root {
+  /* ============ PRIMITIVE — internal. Do not use directly in product. ============ */
+  /* Blue */
+  --wds-blue-50:#EEF7FF; --wds-blue-100:#CBE8FF; --wds-blue-200:#A7D9FF;
+  --wds-blue-300:#68BBFF; --wds-blue-400:#329CFF; --wds-blue-500:#067DFD;
+  --wds-blue-600:#0062E5; --wds-blue-700:#0048C8; --wds-blue-800:#0231A6; --wds-blue-900:#072182;
+  /* Red */
+  --wds-red-50:#FFF5F5; --wds-red-100:#FFDADB; --wds-red-200:#FFBFBF;
+  --wds-red-300:#FF8585; --wds-red-400:#FF5454; --wds-red-500:#EF2B2A;
+  --wds-red-600:#DA120D; --wds-red-700:#BF0A03; --wds-red-800:#9F0A01; --wds-red-900:#7D0800;
+  /* Orange */
+  --wds-orange-50:#FDF6F3; --wds-orange-100:#FFE1D3; --wds-orange-200:#FFCCB2;
+  --wds-orange-300:#FF9E70; --wds-orange-400:#FF7638; --wds-orange-500:#F9560E;
+  --wds-orange-600:#DA4000; --wds-orange-700:#B43200; --wds-orange-800:#882400; --wds-orange-900:#5E2700;
+  /* Green — brand primary */
+  --wds-green-50:#F6FBFA; --wds-green-100:#EEF7F6; --wds-green-200:#DAF0EF;
+  --wds-green-300:#BFE8E4; --wds-green-400:#86CEC7; --wds-green-500:#18A19A;
+  --wds-green-600:#168B88; --wds-green-700:#137271; --wds-green-800:#145B5A; --wds-green-900:#154C4B;
+  /* Navy */
+  --wds-navy-50:#DFEEF5; --wds-navy-100:#B0D3E8; --wds-navy-200:#85B9D9;
+  --wds-navy-300:#5F9ECA; --wds-navy-400:#458CC0; --wds-navy-500:#307CB8;
+  --wds-navy-600:#2870AB; --wds-navy-700:#1F5F99; --wds-navy-800:#195086; --wds-navy-900:#0E3767;
+  /* Purple */
+  --wds-purple-50:#EEF4FF; --wds-purple-100:#E1EBFE; --wds-purple-200:#C8DAFD;
+  --wds-purple-300:#A7BFFA; --wds-purple-400:#849DF5; --wds-purple-500:#6478ED;
+  --wds-purple-600:#4A54E1; --wds-purple-700:#3C43C6; --wds-purple-800:#333AA0; --wds-purple-900:#30377F;
+  /* Gray (Neutral) */
+  --wds-gray-white:#FFFFFF; --wds-gray-50:#F7F8F9; --wds-gray-100:#F3F4F5;
+  --wds-gray-200:#EEEFF1; --wds-gray-300:#DFDFE0; --wds-gray-400:#C7C8C9;
+  --wds-gray-500:#B0B3BA; --wds-gray-600:#9B9B9B; --wds-gray-700:#858588;
+  --wds-gray-800:#47484C; --wds-gray-900:#2A2A2A; --wds-gray-1000:#171719; --wds-gray-black:#000000;
+  /* Coolgray (Cool Neutral) */
+  --wds-coolgray-5:#0F0F10;  --wds-coolgray-7:#141415;  --wds-coolgray-10:#171719;
+  --wds-coolgray-15:#1B1C1E; --wds-coolgray-17:#212225; --wds-coolgray-20:#292A2D;
+  --wds-coolgray-22:#2E2F33; --wds-coolgray-23:#333438; --wds-coolgray-25:#37383C;
+  --wds-coolgray-30:#46474C; --wds-coolgray-40:#5A5C63; --wds-coolgray-50:#70737C;
+  --wds-coolgray-60:#878A93; --wds-coolgray-70:#989BA2; --wds-coolgray-80:#AEB0B6;
+  --wds-coolgray-90:#C2C4C8; --wds-coolgray-95:#DBDCDF; --wds-coolgray-96:#E1E2E4;
+  --wds-coolgray-97:#EAEBEC; --wds-coolgray-98:#F4F4F5; --wds-coolgray-99:#F7F7F8;
+  /* Alpha colors */
+  --wds-neutralA-10:#0000001A; --wds-neutralA-20:#00000033; --wds-neutralA-30:#0000004D;
+  --wds-neutralA-40:#00000066; --wds-neutralA-50:#00000080; --wds-neutralA-60:#00000099;
+  --wds-neutralA-70:#000000B2; --wds-neutralA-80:#000000CC; --wds-neutralA-90:#000000E5;
+
+  /* ============ ALIAS — semantic public. Components read these. ============ */
+  /* Primary (green) */
+  --color-primary-normal: var(--wds-green-500);
+  --color-primary-light:  var(--wds-green-100);
+  --color-primary-strong: var(--wds-green-700);
+  --color-primary-heavy:  var(--wds-green-900);
+
+  /* Background */
+  --color-bg-white: var(--wds-gray-white);
+  --color-bg-50:    var(--wds-gray-50);
+  --color-bg-100:   var(--wds-gray-100);
+  --color-bg-200:   var(--wds-gray-200);
+
+  /* Label (text) */
+  --color-label-strong:      var(--wds-gray-black);
+  --color-label-normal:      var(--wds-gray-1000);
+  --color-label-neutral:     var(--wds-gray-800);
+  --color-label-alternative: var(--wds-gray-700);
+  --color-label-assistive:   var(--wds-gray-400);
+  --color-label-disable:    var(--wds-gray-300);
+  --color-label-white:       var(--wds-gray-white);
+
+  /* Fill */
+  --color-fill-normal:      var(--wds-coolgray-98);
+  --color-fill-strong:      var(--wds-coolgray-96);
+  --color-fill-alternative: var(--wds-coolgray-99);
+
+  /* Line */
+  --color-line-normal:      var(--wds-coolgray-95);
+  --color-line-neutral:     var(--wds-coolgray-97);
+  --color-line-alternative: var(--wds-coolgray-99);
+
+  /* Interaction */
+  --color-interaction-inactive: var(--wds-coolgray-70);
+  --color-interaction-disable:  var(--wds-coolgray-98);
+
+  /* Icon */
+  --color-icon-strong:      var(--wds-gray-1000);
+  --color-icon-default:     var(--wds-gray-800);
+  --color-icon-alternative: var(--wds-gray-700);
+  --color-icon-disable:     var(--wds-gray-600);
+  --color-icon-white:       var(--wds-gray-white);
+
+  /* Status */
+  --color-status-success: var(--wds-green-500);
+  --color-status-warning: var(--wds-orange-500);
+  --color-status-error:   var(--wds-red-500);
+  --color-status-info:    var(--wds-green-100);
+
+  /* OS */
+  --color-os-indicator: var(--wds-gray-1000);
+
+  /* ============ SPACING / PADDING / MARGIN / RADIUS / HEIGHT ============ */
+  /* Primitive spacing — 4px steps */
+  --spacing-1:4px;  --spacing-2:8px;  --spacing-3:12px; --spacing-4:16px;  --spacing-5:20px;
+  --spacing-6:24px; --spacing-7:28px; --spacing-8:32px; --spacing-9:36px;  --spacing-10:40px;
+  --spacing-11:44px; --spacing-12:48px; --spacing-13:52px; --spacing-14:56px; --spacing-15:60px;
+  --spacing-16:64px; --spacing-17:68px; --spacing-18:72px; --spacing-19:76px; --spacing-20:80px;
+
+  --padding-xxs: var(--spacing-1);
+  --padding-xs:  var(--spacing-2);
+  --padding-s:   var(--spacing-3);
+  --padding-m:   var(--spacing-4);
+  --padding-l:   var(--spacing-6);
+  --padding-xl:  var(--spacing-8);
+
+  --margin-xs:  var(--spacing-1);
+  --margin-s:   var(--spacing-2);
+  --margin-sm:  var(--spacing-3);
+  --margin-m:   var(--spacing-4);
+  --margin-l:   var(--spacing-6);
+  --margin-xl:  var(--spacing-10);
+  --margin-xxl: var(--spacing-20);
+
+  --radius-none: 0px;
+  --radius-xxs:  var(--spacing-1);
+  --radius-xs:   var(--spacing-2);
+  --radius-s:    var(--spacing-3);
+  --radius-m:    var(--spacing-5);
+  --radius-l:    var(--spacing-6);
+  --radius-full: 999px;
+
+  --height-s: var(--spacing-6);
+  --height-m: var(--spacing-9);
+  --height-l: var(--spacing-12);
+
+  /* ============ TYPOGRAPHY — weights + family (tier-invariant) ============ */
+  --font-family: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  --font-weight-L:  300;
+  --font-weight-R:  400;
+  --font-weight-M:  500;
+  --font-weight-SB: 600;
+  --font-weight-B:  700;
+  --letter-spacing: 0px;
+}
+
+/* ============ 3-TIER TYPOGRAPHY SCALE (DS-C3) ============ */
+html[data-typography-scale="normal"],
+html:not([data-typography-scale]) {
+  --font-size-5xl:2.25rem;--font-size-4xl:2rem;--font-size-3xl:1.75rem;--font-size-2xl:1.5rem;
+  --font-size-xl:1.25rem;--font-size-lg:1.125rem;--font-size-md:1rem;--font-size-sm:0.875rem;--font-size-xs:0.75rem;
+  --line-height-5xl:3rem;--line-height-4xl:2.625rem;--line-height-3xl:2.375rem;--line-height-2xl:2rem;
+  --line-height-xl:1.75rem;--line-height-lg:1.625rem;--line-height-md:1.5rem;
+  --line-height-md-1:1.375rem;--line-height-sm:1.25rem;--line-height-xs:1rem;
+}
+html[data-typography-scale="large"] {
+  --font-size-5xl:2.5rem;--font-size-4xl:2.25rem;--font-size-3xl:2rem;--font-size-2xl:1.75rem;
+  --font-size-xl:1.5rem;--font-size-lg:1.25rem;--font-size-md:1.125rem;--font-size-sm:1rem;--font-size-xs:0.875rem;
+  --line-height-5xl:3.5rem;--line-height-4xl:3.125rem;--line-height-3xl:2.875rem;--line-height-2xl:2.5rem;
+  --line-height-xl:2.25rem;--line-height-lg:2rem;--line-height-md:1.75rem;
+  --line-height-md-1:1.625rem;--line-height-sm:1.5rem;--line-height-xs:1.125rem;
+}
+html[data-typography-scale="x-large"] {
+  --font-size-5xl:2.75rem;--font-size-4xl:2.5rem;--font-size-3xl:2.25rem;--font-size-2xl:2rem;
+  --font-size-xl:1.75rem;--font-size-lg:1.375rem;--font-size-md:1.25rem;--font-size-sm:1.125rem;--font-size-xs:1rem;
+  --line-height-5xl:4rem;--line-height-4xl:3.5rem;--line-height-3xl:3.375rem;--line-height-2xl:3rem;
+  --line-height-xl:2.5rem;--line-height-lg:2.25rem;--line-height-md:2rem;
+  --line-height-md-1:1.875rem;--line-height-sm:1.75rem;--line-height-xs:1.5rem;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;font-family:var(--font-family);font-size:var(--font-size-md);line-height:var(--line-height-md);
+  font-weight:var(--font-weight-R);color:var(--color-label-normal);background:var(--color-bg-white);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+h1{font-size:var(--font-size-5xl);line-height:var(--line-height-5xl);font-weight:var(--font-weight-B);margin:0;}
+h2{font-size:var(--font-size-4xl);line-height:var(--line-height-4xl);font-weight:var(--font-weight-B);margin:0;}
+h3{font-size:var(--font-size-3xl);line-height:var(--line-height-3xl);font-weight:var(--font-weight-SB);margin:0;}
+h4{font-size:var(--font-size-2xl);line-height:var(--line-height-2xl);font-weight:var(--font-weight-SB);margin:0;}
+h5{font-size:var(--font-size-xl);line-height:var(--line-height-xl);font-weight:var(--font-weight-SB);margin:0;}
+p{font-size:var(--font-size-md);line-height:var(--line-height-md);margin:0;}
+.caption{font-size:var(--font-size-sm);line-height:var(--line-height-sm);color:var(--color-label-alternative);}

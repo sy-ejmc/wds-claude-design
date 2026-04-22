@@ -14,7 +14,9 @@ export {
   margin,
   radius,
   height,
+  shadow,
   typography,
+  brand,
 } from "./alias";
 
 export type TypographyScale = "normal" | "large" | "x-large";

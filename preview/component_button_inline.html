@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Inline / Text Button — WDS</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { padding: 40px 32px; background: #fafbfc; }
+  .page { max-width: 1100px; margin: 0 auto; display: grid; gap: 40px; }
+  header h1 { font-size: 28px; line-height: 36px; font-weight: var(--font-weight-B); }
+  header p  { margin-top: 6px; color: var(--color-label-alternative); font-size: 14px; line-height: 20px; }
+  header code, .sub code, .legend code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    background: var(--color-primary-light);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--color-primary-strong);
+  }
+
+  section.group {
+    background: #fff;
+    border: 1px solid var(--color-line-normal);
+    border-radius: 12px;
+    padding: 28px 28px 32px;
+  }
+  .group > h2 {
+    font-size: 16px; line-height: 24px; font-weight: var(--font-weight-B);
+    color: var(--color-label-normal);
+    margin-bottom: 4px;
+  }
+  .group > .sub {
+    font-size: 13px; line-height: 20px; color: var(--color-label-alternative);
+    margin-bottom: 20px;
+  }
+
+  /* row-based demo layout */
+  .rows { display: grid; gap: 18px; }
+  .row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .row-label {
+    font-size: 12px; line-height: 16px;
+    color: var(--color-label-alternative);
+    font-weight: var(--font-weight-SB);
+  }
+  .row-demo { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+  /* demo surface (to show on-color context) */
+  .surface {
+    padding: 16px 20px;
+    background: var(--color-bg-normal, #f7f8fa);
+    border-radius: 8px;
+    border: 1px solid var(--color-line-normal);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex: 1;
+  }
+
+  /* ── Inline Text Button — link-style ─────────────────────────── */
+  .text-btn {
+    appearance: none; -webkit-appearance: none;
+    border: 0; background: transparent;
+    padding: 0;
+    font-family: var(--font-family);
+    font-size: 14px; line-height: 22px;
+    color: var(--color-label-alternative); /* #9B9B9B-ish */
+    cursor: pointer;
+    text-underline-offset: 3px;
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+  }
+  .text-btn:hover { color: var(--color-label-normal); }
+  .text-btn--muted {
+    color: var(--color-label-assistive);
+    text-decoration: none;
+  }
+  .text-btn--muted:hover { text-decoration: underline; }
+
+  /* ── Block Text Button — full-width secondary link ───────────── */
+  .text-block {
+    appearance: none; -webkit-appearance: none;
+    width: 100%;
+    max-width: 358px;
+    height: 50px;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-B); /* 700 */
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-label-assistive); /* #777 */
+    cursor: pointer;
+    text-align: center;
+  }
+  .text-block b { text-decoration: underline; text-underline-offset: 3px; }
+  .text-block:hover { color: var(--color-label-normal); }
+
+  /* ── Info Button — purple info chip ─────────────────────────── */
+  .info-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 8px;
+    background: rgb(74, 84, 225);
+    color: #fff;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-B);
+    font-size: 14px;
+    line-height: 16px;
+    cursor: pointer;
+  }
+  .info-btn:hover { background: rgb(54, 64, 205); }
+
+  /* example form ctx for BlockTextbtn */
+  .form-mock {
+    width: 358px;
+    background: #fff;
+    border: 1px solid var(--color-line-normal);
+    border-radius: 12px;
+    padding: 24px 16px;
+    display: grid; gap: 12px;
+  }
+  .form-mock .input {
+    height: 56px;
+    border: 1px solid var(--color-line-normal);
+    border-radius: 8px;
+    display: flex; align-items: center;
+    padding: 0 14px;
+    font-size: 14px;
+    color: var(--color-label-assistive);
+    background: #fff;
+  }
+  .form-mock .cta {
+    height: 56px;
+    border-radius: 8px;
+    border: 0;
+    background: var(--color-primary-normal);
+    color: #fff;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-B);
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px 14px;
+    font-size: 12px; line-height: 16px;
+    color: var(--color-label-alternative);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Inline / Text Button</h1>
+  <p>Text만으로 표현되는 보조 액션 — 본문에 inline으로 들어가는 link-style 버튼, 폼 하단의 "나중에 할게요 / 비밀번호 찾기" 같은 secondary link, 그리고 정보성 chip 버튼.</p>
+</header>
+
+<!-- ═══════════════ Inline Text Button ═══════════════ -->
+<section class="group">
+  <h2>Inline Text Button</h2>
+  <div class="sub">Figma <code>text_btn</code> (77×22) · <code>label.assistive</code> 색 · underline on action · 본문 안에 inline으로 배치</div>
+
+  <div class="rows">
+    <div class="row">
+      <div class="row-label">Default</div>
+      <div class="row-demo">
+        <div class="surface">
+          <span style="color:var(--color-label-normal);font-size:14px">회원가입을 완료하려면 약관에 동의해 주세요.</span>
+          <button class="text-btn">자세히 보기</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Skip-style</div>
+      <div class="row-demo">
+        <button class="text-btn">나중에 할게요</button>
+        <button class="text-btn">건너뛰기</button>
+        <button class="text-btn">다른 방법으로 로그인</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Muted</div>
+      <div class="row-demo">
+        <button class="text-btn text-btn--muted">이용약관</button>
+        <button class="text-btn text-btn--muted">개인정보처리방침</button>
+        <button class="text-btn text-btn--muted">고객센터</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ Block Text Button ═══════════════ -->
+<section class="group">
+  <h2>Block Text Button</h2>
+  <div class="sub">Figma <code>Block Button/Textbtn</code> (358×50) · 폼 하단 full-width 텍스트 링크 · 강조 단어만 underline</div>
+
+  <div class="rows">
+    <div class="row">
+      <div class="row-label">폼 하단 예시</div>
+      <div class="row-demo">
+        <div class="form-mock">
+          <div class="input">아이디</div>
+          <div class="input">비밀번호</div>
+          <button class="cta">로그인</button>
+          <button class="text-block">비밀번호를 잊으셨나요? <b>비밀번호 찾기</b></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">단독 variants</div>
+      <div class="row-demo">
+        <button class="text-block">아직 계정이 없으신가요? <b>회원가입</b></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row-label"></div>
+      <div class="row-demo">
+        <button class="text-block">인증 문자가 오지 않나요? <b>다시 받기</b></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ Info Button ═══════════════ -->
+<section class="group">
+  <h2>Info Button</h2>
+  <div class="sub">Figma <code>Info-Button</code> (45×32) · bg <code>rgb(74, 84, 225)</code> Indigo · 정보성 / 안내용 small chip · Block Button Size S와 크기 동일</div>
+
+  <div class="rows">
+    <div class="row">
+      <div class="row-label">Default</div>
+      <div class="row-demo">
+        <button class="info-btn">확인</button>
+        <button class="info-btn">안내</button>
+        <button class="info-btn">자세히</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">컨텍스트 예시</div>
+      <div class="row-demo">
+        <div class="surface">
+          <span style="color:var(--color-label-normal);font-size:14px">새로운 기능이 업데이트되었어요.</span>
+          <button class="info-btn">자세히</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ Tokens reference ═══════════════ -->
+<section class="group">
+  <h2>토큰 매핑</h2>
+  <div class="sub">Inline Text / Block Text / Info 각 버튼에 적용된 토큰</div>
+  <div class="legend">
+    <span><code>--color-label-assistive</code> → Inline text default / Block text body</span>
+    <span><code>--color-label-normal</code> → Inline text hover · 강조 단어 fg</span>
+    <span><code>--font-weight-B</code> (700) → Block text 강조 · Info button label</span>
+    <span><code>--radius-s</code> (8) → Info button corner</span>
+    <span>Info brand <code>rgb(74, 84, 225)</code> — Figma spec; 별도 token 매핑 없음</span>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

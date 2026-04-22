@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css"></head><body style="padding:24px">
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+  
+  <div style="flex:1;min-width:140px">
+    <div style="background:var(--color-primary-light);height:80px;border-radius:20px;border:1px solid var(--color-line-normal)"></div>
+    <div style="margin-top:8px;font-weight:600;font-size:15px">primary.light</div>
+    <div style="font-size:12px;color:var(--color-label-alternative);font-variant-numeric:tabular-nums" id="plight"></div>
+  </div>
+  <div style="flex:1;min-width:140px">
+    <div style="background:var(--color-primary-normal);height:80px;border-radius:20px;border:1px solid var(--color-line-normal)"></div>
+    <div style="margin-top:8px;font-weight:600;font-size:15px">primary.normal</div>
+    <div style="font-size:12px;color:var(--color-label-alternative);font-variant-numeric:tabular-nums" id="pnormal"></div>
+  </div>
+  <div style="flex:1;min-width:140px">
+    <div style="background:var(--color-primary-strong);height:80px;border-radius:20px;border:1px solid var(--color-line-normal)"></div>
+    <div style="margin-top:8px;font-weight:600;font-size:15px">primary.strong</div>
+    <div style="font-size:12px;color:var(--color-label-alternative);font-variant-numeric:tabular-nums" id="pstrong"></div>
+  </div>
+  <div style="flex:1;min-width:140px">
+    <div style="background:var(--color-primary-heavy);height:80px;border-radius:20px;border:1px solid var(--color-line-normal)"></div>
+    <div style="margin-top:8px;font-weight:600;font-size:15px">primary.heavy</div>
+    <div style="font-size:12px;color:var(--color-label-alternative);font-variant-numeric:tabular-nums" id="pheavy"></div>
+  </div>
+</div>
+<script>
+  ['light','normal','strong','heavy'].forEach(k=>{
+    const v=getComputedStyle(document.documentElement).getPropertyValue('--color-primary-'+k).trim();
+    document.getElementById('p'+k).textContent=v.toUpperCase();
+  });
+</script></body></html>

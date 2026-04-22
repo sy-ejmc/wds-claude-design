@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Brand · Logo</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body {
+    margin: 0;
+    padding: 32px;
+    background: var(--color-bg-50);
+    font-family: var(--font-family);
+    color: var(--color-label-normal);
+  }
+  .stack { display: flex; flex-direction: column; gap: 24px; }
+  .row { display: grid; gap: 16px; }
+  .card {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-line-normal-neutral);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cap {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--color-label-assistive);
+  }
+  .h {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-label-normal);
+  }
+  .sub {
+    font-size: 13px;
+    color: var(--color-label-alternative);
+    line-height: 1.55;
+    max-width: 640px;
+  }
+  .mono { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: var(--color-label-alternative); }
+
+  /* ── Lockup ───────────────────────────────────── */
+  .lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--brand-symbol-color);
+  }
+  .lockup svg { display: block; }
+  .wordmark {
+    font-family: var(--brand-wordmark-family);
+    font-weight: var(--brand-wordmark-weight);
+    letter-spacing: var(--brand-wordmark-tracking);
+    color: var(--brand-symbol-color);
+    line-height: 1;
+  }
+
+  /* stage = frame showing a rendition of the mark */
+  .stage {
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }
+  .stage--light { background: #fff; border: 1px solid var(--color-line-normal-neutral); }
+  .stage--gray  { background: var(--color-bg-50); }
+  .stage--dark  { background: #111; }
+  .stage--brand { background: var(--color-primary-normal); }
+
+  /* clearspace diagram */
+  .cs-wrap {
+    position: relative;
+    padding: 48px;
+    display: inline-flex;
+  }
+  .cs-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(0,150,136,0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,150,136,0.12) 1px, transparent 1px);
+    background-size: 24px 24px;
+    border: 1px dashed rgba(0,150,136,0.4);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+  .cs-marker {
+    position: absolute;
+    background: rgba(0,150,136,0.08);
+    border: 1px dashed rgba(0,150,136,0.5);
+  }
+  .cs-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--color-primary-normal);
+    background: #fff;
+    padding: 0 4px;
+    border-radius: 2px;
+  }
+
+  /* dos/don'ts */
+  .check { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .chip {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .chip.ok  { background: rgba(0,150,136,0.12); color: var(--color-primary-normal); }
+  .chip.no  { background: rgba(255,99,110,0.15); color: var(--color-status-negative); }
+  .mini-stage {
+    background: var(--color-bg-50);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+  }
+
+  /* size ladder */
+  .ladder { display: flex; align-items: baseline; gap: 32px; flex-wrap: wrap; }
+  .ladder > div { text-align: center; }
+
+  hr.sep { border: 0; border-top: 1px solid var(--color-line-normal-neutral); margin: 4px 0; }
+</style>
+</head>
+<body>
+
+<div class="stack">
+
+  <!-- HEADER -->
+  <div>
+    <div class="cap" style="margin-bottom:6px">Brand / CI</div>
+    <div style="font-size:28px;font-weight:700;letter-spacing:-0.02em">WOORIGA Logo</div>
+    <div class="sub" style="margin-top:8px">
+      로고는 이제이엠컴퍼니의 주요 서비스 <b>우리가</b>를 대표합니다.
+      심볼 단독 · 워드마크 단독 · 심볼+워드마크 락업 3가지 형태로 사용되며,
+      재현 시 본 문서의 비율·색상·여백 규칙을 따릅니다.
+    </div>
+  </div>
+
+  <!-- PRIMARY LOCKUP -->
+  <div class="card">
+    <div class="h">Primary lockup</div>
+    <div class="sub">기본형. 대부분의 brand surface에서 이 형태를 사용합니다.</div>
+    <div class="stage stage--light" style="padding:56px">
+      <div class="lockup">
+        <svg width="72" height="70" viewBox="0 0 70.255 68.498" aria-hidden="true">
+          <use href="assets/wooriga-symbol.svg#_"/>
+          <path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/>
+        </svg>
+        <span class="wordmark" style="font-size:56px">WOORIGA</span>
+      </div>
+    </div>
+    <div class="mono">brand.symbol + brand.wordmark · color = Primary Normal #009688</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="row" style="grid-template-columns:1fr 1fr 1fr">
+    <div class="card">
+      <div class="cap">Symbol only</div>
+      <div class="stage stage--light">
+        <svg width="96" height="94" viewBox="0 0 70.255 68.498" style="color:var(--brand-symbol-color)" aria-hidden="true">
+          <path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/>
+        </svg>
+      </div>
+      <div class="mono">house + person · fill = currentColor</div>
+    </div>
+    <div class="card">
+      <div class="cap">Wordmark only</div>
+      <div class="stage stage--light">
+        <span class="wordmark" style="font-size:42px">WOORIGA</span>
+      </div>
+      <div class="mono">Pretendard 800 · tracking −0.04em</div>
+    </div>
+    <div class="card">
+      <div class="cap">Stacked lockup</div>
+      <div class="stage stage--light">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--brand-symbol-color)">
+          <svg width="72" height="70" viewBox="0 0 70.255 68.498" aria-hidden="true">
+            <path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/>
+          </svg>
+          <span class="wordmark" style="font-size:24px">WOORIGA</span>
+        </div>
+      </div>
+      <div class="mono">narrow container · e.g. app icon split</div>
+    </div>
+  </div>
+
+  <!-- BACKGROUNDS -->
+  <div class="card">
+    <div class="h">Color on background</div>
+    <div class="sub">
+      <b>On white / neutral</b>은 심볼 컬러(Primary Normal)를 그대로 사용합니다.
+      <b>On brand</b>은 흰색으로 반전, <b>On dark</b>은 흰색을 사용합니다.
+      단색 로고가 필요하면 Black (#111) 또는 White를 허용합니다.
+    </div>
+    <div class="row" style="grid-template-columns:repeat(4,1fr);margin-top:4px">
+      <div>
+        <div class="stage stage--light">
+          <div class="lockup" style="color:var(--brand-symbol-color)">
+            <svg width="40" height="39" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+            <span class="wordmark" style="font-size:28px">WOORIGA</span>
+          </div>
+        </div>
+        <div class="cap" style="margin-top:8px;text-align:center">On white</div>
+      </div>
+      <div>
+        <div class="stage stage--gray">
+          <div class="lockup" style="color:var(--brand-symbol-color)">
+            <svg width="40" height="39" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+            <span class="wordmark" style="font-size:28px">WOORIGA</span>
+          </div>
+        </div>
+        <div class="cap" style="margin-top:8px;text-align:center">On neutral</div>
+      </div>
+      <div>
+        <div class="stage stage--brand">
+          <div class="lockup" style="color:#fff">
+            <svg width="40" height="39" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+            <span class="wordmark" style="font-size:28px;color:#fff">WOORIGA</span>
+          </div>
+        </div>
+        <div class="cap" style="margin-top:8px;text-align:center">On brand</div>
+      </div>
+      <div>
+        <div class="stage stage--dark">
+          <div class="lockup" style="color:#fff">
+            <svg width="40" height="39" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+            <span class="wordmark" style="font-size:28px;color:#fff">WOORIGA</span>
+          </div>
+        </div>
+        <div class="cap" style="margin-top:8px;text-align:center">On dark</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLEARSPACE -->
+  <div class="card">
+    <div class="h">Clearspace</div>
+    <div class="sub">
+      심볼 높이의 절반(<b>x = 0.5h</b>)을 로고 상·하·좌·우 최소 여백으로 확보합니다.
+      다른 요소가 이 영역을 침범하지 않아야 합니다.
+    </div>
+    <div class="stage stage--light" style="justify-content:flex-start;padding:32px">
+      <div class="cs-wrap">
+        <!-- dashed clearspace boundary -->
+        <div class="cs-grid"></div>
+        <!-- padding = 0.5 × symbol height (symbol=64 → pad=32) -->
+        <div style="padding:32px;position:relative">
+          <div class="lockup" style="color:var(--brand-symbol-color)">
+            <svg width="64" height="62" viewBox="0 0 70.255 68.498" aria-hidden="true">
+              <path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/>
+            </svg>
+            <span class="wordmark" style="font-size:48px">WOORIGA</span>
+          </div>
+        </div>
+        <div class="cs-label" style="top:8px;left:8px">x = ½ h</div>
+      </div>
+    </div>
+    <div class="mono">brand.clearspace = 0.5 (ratio of symbol height)</div>
+  </div>
+
+  <!-- MIN SIZE -->
+  <div class="card">
+    <div class="h">Minimum size</div>
+    <div class="sub">
+      가독성 확보를 위한 최소 크기. 이 이하 크기로는 렌더하지 않습니다.
+    </div>
+    <div class="stage stage--light" style="justify-content:flex-start;gap:56px;padding:32px">
+      <div style="text-align:center">
+        <div class="lockup" style="color:var(--brand-symbol-color)">
+          <svg width="20" height="19.5" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+        </div>
+        <div class="cap" style="margin-top:8px">symbol · 20px</div>
+      </div>
+      <div style="text-align:center">
+        <span class="wordmark" style="font-size:14px">WOORIGA</span>
+        <div class="cap" style="margin-top:8px">wordmark · 14px</div>
+      </div>
+      <div style="text-align:center">
+        <div class="lockup" style="color:var(--brand-symbol-color);gap:8px">
+          <svg width="24" height="23.4" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+          <span class="wordmark" style="font-size:16px">WOORIGA</span>
+        </div>
+        <div class="cap" style="margin-top:8px">lockup · 24px symbol</div>
+      </div>
+    </div>
+    <div class="mono">brand.minSize = { symbol: 20, wordmark: 14, lockup: 24 }</div>
+  </div>
+
+  <!-- DOS / DON'TS -->
+  <div class="card">
+    <div class="h">Do's & Don'ts</div>
+    <div class="check">
+      <div>
+        <span class="chip ok">● Do</span>
+        <div class="mini-stage" style="margin-top:8px">
+          <div class="lockup" style="color:var(--brand-symbol-color)">
+            <svg width="32" height="31" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+            <span class="wordmark" style="font-size:22px">WOORIGA</span>
+          </div>
+        </div>
+        <div class="sub" style="margin-top:6px">승인된 색상(Primary/White/Black)으로 사용</div>
+      </div>
+      <div>
+        <span class="chip no">✕ Don't</span>
+        <div class="mini-stage" style="margin-top:8px">
+          <div class="lockup" style="color:#c04de8">
+            <svg width="32" height="31" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.056 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+            <span class="wordmark" style="font-size:22px">WOORIGA</span>
+          </div>
+        </div>
+        <div class="sub" style="margin-top:6px">임의의 브랜드 외 색상으로 변경</div>
+      </div>
+      <div>
+        <span class="chip ok">● Do</span>
+        <div class="mini-stage" style="margin-top:8px">
+          <div class="lockup" style="color:var(--brand-symbol-color)">
+            <svg width="32" height="31" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+            <span class="wordmark" style="font-size:22px">WOORIGA</span>
+          </div>
+        </div>
+        <div class="sub" style="margin-top:6px">원본 비율을 유지</div>
+      </div>
+      <div>
+        <span class="chip no">✕ Don't</span>
+        <div class="mini-stage" style="margin-top:8px">
+          <div class="lockup" style="color:var(--brand-symbol-color);transform:scaleX(1.6)">
+            <svg width="32" height="31" viewBox="0 0 70.255 68.498" aria-hidden="true"><path d="M 65.463 0 L 48.378 0 C 47.022 0 45.705 0.421 44.58 1.21 L 2.622 30.607 C 0.985 31.751 0 33.671 0 35.708 L 0 68.498 L 15.781 68.498 L 15.781 53.181 C 15.781 48.698 19.31 45.069 23.671 45.069 C 28.032 45.069 31.561 48.698 31.561 53.181 L 31.561 68.498 L 63.11 68.498 L 63.11 44.07 C 63.11 43.544 63.186 43.018 63.353 42.519 L 70.169 5.877 C 70.731 2.84 68.468 0.026 65.463 0.026 L 65.463 0 Z M 54.836 19.537 C 52.508 21.325 49.388 21.075 47.892 18.998 C 46.383 16.921 47.06 13.792 49.388 12.004 C 51.715 10.216 54.836 10.465 56.332 12.543 C 57.841 14.62 57.163 17.749 54.836 19.537 Z" fill="currentColor" fill-rule="nonzero"/></svg>
+            <span class="wordmark" style="font-size:22px">WOORIGA</span>
+          </div>
+        </div>
+        <div class="sub" style="margin-top:6px">가로/세로 왜곡</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

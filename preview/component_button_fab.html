@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Floating Action Button — WDS</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { padding: 40px 32px; background: #fafbfc; }
+  .page { max-width: 1100px; margin: 0 auto; display: grid; gap: 40px; }
+  header h1 { font-size: 28px; line-height: 36px; font-weight: var(--font-weight-B); }
+  header p  { margin-top: 6px; color: var(--color-label-alternative); font-size: 14px; line-height: 20px; }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    background: var(--color-primary-light);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--color-primary-strong);
+  }
+
+  section.group {
+    background: #fff;
+    border: 1px solid var(--color-line-normal);
+    border-radius: 12px;
+    padding: 28px 28px 32px;
+  }
+  .group > h2 {
+    font-size: 16px; line-height: 24px; font-weight: var(--font-weight-B);
+    color: var(--color-label-normal);
+    margin-bottom: 4px;
+  }
+  .group > .sub {
+    font-size: 13px; line-height: 20px; color: var(--color-label-alternative);
+    margin-bottom: 20px;
+  }
+
+  .matrix {
+    display: grid;
+    grid-template-columns: 112px repeat(3, 1fr);
+    column-gap: 24px;
+    row-gap: 28px;
+    align-items: center;
+  }
+  .matrix .col-head {
+    font-size: 12px; line-height: 16px;
+    color: var(--color-label-assistive);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: var(--font-weight-SB);
+  }
+  .matrix .row-head {
+    font-size: 12px; line-height: 16px;
+    color: var(--color-label-alternative);
+    font-weight: var(--font-weight-SB);
+  }
+  .cell { display: flex; align-items: center; gap: 10px; }
+  .cell .tag {
+    font-size: 11px;
+    color: var(--color-label-assistive);
+    font-family: ui-monospace, Menlo, monospace;
+  }
+
+  /* ── FAB — 1:1 Figma spec ─────────────────────────────────── */
+  .fab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 999px;
+    padding: 0;
+    cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    transition: transform 140ms ease, box-shadow 140ms ease;
+    flex-shrink: 0;
+  }
+  .fab:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,0.14); }
+  .fab:active { transform: translateY(0); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+  .fab svg { display: block; }
+
+  .fab-L { width: 56px; height: 56px; }
+  .fab-S { width: 40px; height: 40px; }
+  .fab-L svg { width: 24px; height: 24px; }
+  .fab-S svg { width: 16px; height: 16px; }
+
+  .fab-primary   { background: var(--color-primary-normal); color: var(--color-label-white); }
+  .fab-secondary { background: var(--color-primary-light);  color: var(--color-primary-normal); }
+  .fab-tertiary  { background: #fff;                         color: var(--color-label-normal); }
+
+  /* ── Extended FAB — text + icon ──────────────────────────── */
+  .fab-ext {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 56px;
+    padding: 0 22px 0 18px;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    background: var(--color-primary-normal);
+    color: var(--color-label-white);
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-B);
+    font-size: 16px;
+    line-height: 24px;
+    transition: transform 140ms ease, box-shadow 140ms ease;
+  }
+  .fab-ext svg { width: 24px; height: 24px; }
+  .fab-ext:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,0.14); }
+
+  /* ── Context mockup — phone frame ─────────────────────────── */
+  .mock-stage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .phone {
+    position: relative;
+    aspect-ratio: 390 / 520;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 1px solid var(--color-line-normal);
+    background: linear-gradient(180deg, #f5f7f9 0%, #eaeef2 100%);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+  }
+  .phone .topbar {
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    background: #fff;
+    border-bottom: 1px solid var(--color-line-normal);
+  }
+  .phone .topbar .title { font-size: 14px; font-weight: var(--font-weight-B); color: var(--color-label-normal); }
+  .phone .content {
+    padding: 16px;
+    display: grid; gap: 10px;
+  }
+  .phone .row {
+    display: flex; gap: 12px; align-items: center;
+    padding: 12px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--color-line-normal);
+  }
+  .phone .avatar {
+    width: 36px; height: 36px; border-radius: 999px;
+    background: var(--color-primary-light);
+  }
+  .phone .row-text {
+    display: grid; gap: 2px;
+  }
+  .phone .row-text b { font-size: 13px; color: var(--color-label-normal); font-weight: var(--font-weight-SB); }
+  .phone .row-text span { font-size: 11px; color: var(--color-label-alternative); }
+
+  .phone .fab-slot {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px 14px;
+    font-size: 12px; line-height: 16px;
+    color: var(--color-label-alternative);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Floating Action Button</h1>
+  <p>화면 위에 떠 있는 상위 액션 버튼. Figma <code>Button / Floating-Action-Button</code> 1:1 스펙 · 원형 · 그림자 <code>0 8px 24px rgba(0,0,0,0.1)</code> · Large 56 / Small 40.</p>
+</header>
+
+<!-- ═══════════════ Matrix ═══════════════ -->
+<section class="group">
+  <h2>Size × Variants</h2>
+  <div class="sub">Large 56×56 (icon 24) · Small 40×40 (icon 16) · 모든 variant는 동일한 shadow</div>
+
+  <div class="matrix">
+    <div class="col-head"></div>
+    <div class="col-head">Primary</div>
+    <div class="col-head">Secondary</div>
+    <div class="col-head">Tertiary</div>
+
+    <div class="row-head">Large · 56</div>
+    <div class="cell">
+      <button class="fab fab-primary fab-L" aria-label="새로 만들기"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+      <span class="tag">24 / #fff</span>
+    </div>
+    <div class="cell">
+      <button class="fab fab-secondary fab-L" aria-label="새로 만들기"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+      <span class="tag">24 / primary</span>
+    </div>
+    <div class="cell">
+      <button class="fab fab-tertiary fab-L" aria-label="새로 만들기"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+      <span class="tag">24 / dark</span>
+    </div>
+
+    <div class="row-head">Small · 40</div>
+    <div class="cell">
+      <button class="fab fab-primary fab-S" aria-label="추가"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <span class="tag">16 / #fff</span>
+    </div>
+    <div class="cell">
+      <button class="fab fab-secondary fab-S" aria-label="추가"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <span class="tag">16 / primary</span>
+    </div>
+    <div class="cell">
+      <button class="fab fab-tertiary fab-S" aria-label="추가"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <span class="tag">16 / dark</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ Alt icons ═══════════════ -->
+<section class="group">
+  <h2>다양한 아이콘</h2>
+  <div class="sub">FAB는 단일 primary action 전용 — 화면당 하나만 · 아이콘은 행동 성격에 맞게 교체</div>
+
+  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+    <button class="fab fab-primary fab-L" aria-label="편집"><svg viewBox="0 0 24 24" fill="none"><path d="M14.5 4.5l5 5-10 10H4.5v-5l10-10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
+    <button class="fab fab-primary fab-L" aria-label="메시지"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 4v-4H6a2 2 0 0 1-2-2V6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
+    <button class="fab fab-primary fab-L" aria-label="카메라"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 7l2-3h4l2 3" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.5" stroke="currentColor" stroke-width="2"/></svg></button>
+    <button class="fab fab-primary fab-L" aria-label="공유"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4v11M7 9l5-5 5 5M5 16v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="fab fab-primary fab-L" aria-label="검색"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </div>
+</section>
+
+<!-- ═══════════════ Extended FAB ═══════════════ -->
+<section class="group">
+  <h2>Extended FAB</h2>
+  <div class="sub">텍스트 + 아이콘 · 기본 FAB와 동일한 shape token 사용 · 라벨이 맥락 설명이 꼭 필요할 때만 사용</div>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+    <button class="fab-ext"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>새 글쓰기</button>
+    <button class="fab-ext" style="background:var(--color-primary-light);color:var(--color-primary-normal);"><svg viewBox="0 0 24 24" fill="none"><path d="M14.5 4.5l5 5-10 10H4.5v-5l10-10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>빠른 편집</button>
+    <button class="fab-ext" style="background:#fff;color:var(--color-label-normal);"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>장소 찾기</button>
+  </div>
+</section>
+
+<!-- ═══════════════ Context mockups ═══════════════ -->
+<section class="group">
+  <h2>컨텍스트 예시</h2>
+  <div class="sub">실제 스크린 우하단 고정 배치 — safe-area 16-24px 마진</div>
+
+  <div class="mock-stage">
+    <!-- List screen with Primary FAB -->
+    <div class="phone">
+      <div class="topbar">
+        <div class="title">메시지</div>
+        <div style="font-size:11px;color:var(--color-label-alternative)">3 unread</div>
+      </div>
+      <div class="content">
+        <div class="row"><div class="avatar"></div><div class="row-text"><b>김민수</b><span>오늘 오후 회의 가능할까요?</span></div></div>
+        <div class="row"><div class="avatar" style="background:#fce7e7"></div><div class="row-text"><b>이서연</b><span>파일 공유드렸어요 :)</span></div></div>
+        <div class="row"><div class="avatar" style="background:#e7f0fc"></div><div class="row-text"><b>박지훈</b><span>내일 몇 시에 뵐까요?</span></div></div>
+        <div class="row"><div class="avatar" style="background:#fff4e0"></div><div class="row-text"><b>정수아</b><span>감사합니다!</span></div></div>
+      </div>
+      <div class="fab-slot">
+        <button class="fab fab-primary fab-L" aria-label="새 메시지"><svg viewBox="0 0 24 24" fill="none"><path d="M14.5 4.5l5 5-10 10H4.5v-5l10-10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Map screen with Small FAB stack -->
+    <div class="phone" style="background:linear-gradient(135deg,#eaf6f5 0%,#d6e9e6 100%)">
+      <div class="topbar">
+        <div class="title">주변 탐색</div>
+        <div style="font-size:11px;color:var(--color-label-alternative)">강남구</div>
+      </div>
+      <div class="content" style="position:relative;min-height:calc(100% - 52px)">
+        <!-- fake map -->
+        <div style="position:absolute;inset:12px;border-radius:12px;background:
+          radial-gradient(circle at 30% 40%, rgba(24,161,154,0.12) 0, transparent 40%),
+          radial-gradient(circle at 70% 70%, rgba(24,161,154,0.10) 0, transparent 40%),
+          #e5efee;
+          border:1px solid var(--color-line-normal);
+        "></div>
+        <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:999px;background:var(--color-primary-normal);box-shadow:0 0 0 6px rgba(24,161,154,0.2);"></div>
+      </div>
+      <!-- small fab stack: top-to-bottom -->
+      <div style="position:absolute;right:16px;bottom:16px;display:flex;flex-direction:column;gap:10px;align-items:center">
+        <button class="fab fab-tertiary fab-S" aria-label="레이어"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2l6 3-6 3-6-3 6-3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M2 10l6 3 6-3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+        <button class="fab fab-tertiary fab-S" aria-label="내 위치"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
+        <button class="fab fab-primary fab-L" aria-label="경로 시작"><svg viewBox="0 0 24 24" fill="none"><path d="M7 5l12 7-12 7V5z" fill="currentColor"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ Tokens ═══════════════ -->
+<section class="group">
+  <h2>토큰 매핑</h2>
+  <div class="sub">Shadow는 Figma 스펙 고정값 — elevation preview의 <code>elevation-fab</code>에 해당하면 거기로 연결</div>
+  <div class="legend">
+    <span><code>--color-primary-normal</code> → Primary bg</span>
+    <span><code>--color-primary-light</code> → Secondary bg</span>
+    <span><code>#fff</code> → Tertiary bg</span>
+    <span><code>--color-label-white</code> → Primary icon</span>
+    <span><code>--color-primary-normal</code> → Secondary icon</span>
+    <span><code>--color-label-normal</code> → Tertiary icon</span>
+    <span><code>radius: 999</code> → 원형 고정</span>
+    <span><code>0 8px 24px rgba(0,0,0,0.1)</code> → Figma 고정 shadow</span>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
