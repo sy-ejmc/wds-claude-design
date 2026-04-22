@@ -1,46 +1,171 @@
 /**
- * WDS Alias Tokens (V2, Figma var-set `3003:11912`)
+ * WDS Alias Tokens (V2, Figma var-set `3003:11912`) — 33 color aliases
+ * + V3 Spacing & Sizing aliases (padding / margin / radius / height) — 23
+ * + V5 Typography (size / lineHeight / weight / letterSpacing / fontFamily)
  *
- * PUBLIC INTERFACE for components. Components should import these.
- * Aliases reference primitives (colors) or CSS custom properties
- * (typography) so tier/theme changes happen outside the component tree.
+ * PUBLIC INTERFACE for components. Aliases preserve the Figma group →
+ * variable structure verbatim (e.g. `color.primary.normal`,
+ * `color.background["bg-white"]`, `padding.m`, `radius.full`).
  *
- * DS-C1: spacing is px-based (absolute, elderly-friendly layout predictability).
- * DS-C2: typography sizes are rem-based (propagate via tier-swapped CSS vars).
+ * DS-C1: spacing/padding/margin/radius are **px** (absolute, elderly-friendly
+ *        layout predictability). Sourced from the Primitive(spacing) steps.
+ * DS-C2: typography sizes/line-heights are **rem** (propagate via tier-swapped
+ *        CSS vars). Source values are px in Figma; converted with 1rem = 16px.
  * DS-C3: 3-tier scale — see ./scale.css. Typography tokens here are
- *        `var(--font-size-*)` / `var(--line-height-*)` references;
- *        their actual values switch when `<html data-typography-scale>` changes.
+ *        `var(--font-size-*)` / `var(--line-height-*)` references.
+ *
+ * Figma naming is preserved. Minor typo normalizations noted inline:
+ *   - `primary-nomal` → `primary.normal` (Figma typo)
+ *   - `fill- strong` → `fill.strong` (Figma whitespace artifact)
+ *   - `Alpha-colors- neutralA-*` → `primitive.color.neutralA.*` (same)
+ *
+ * Source of truth: Figma v1.2.0 variable generator export, 2026-04-22.
  */
 import { primitive } from "./primitive";
 
+/* ------------------------------------------------------------------ */
+/* V2. Alias Token (color)                                            */
+/* ------------------------------------------------------------------ */
+
 export const color = {
-  text: {
-    primary: primitive.color.gray[900],
-    secondary: primitive.color.gray[700],
-    inverse: primitive.color.white,
-    accent: primitive.color.blue[700],
+  /** Brand / CTA — driven by green palette. */
+  primary: {
+    normal: primitive.color.green[500],   // Figma: `primary-nomal` (typo)
+    light:  primitive.color.green[100],
+    strong: primitive.color.green[700],
+    heavy:  primitive.color.green[900],
   },
-  bg: {
-    surface: primitive.color.white,
-    subtle: primitive.color.gray[50],
-    accent: primitive.color.blue[500],
-    accentHover: primitive.color.blue[700],
+
+  /** Background surfaces. */
+  background: {
+    "bg-white": primitive.color.gray.white,
+    "bg-50":    primitive.color.gray[50],
+    "bg-100":   primitive.color.gray[100],
+    "bg-200":   primitive.color.gray[200],
   },
-  border: {
-    default: primitive.color.gray[200],
-    accent: primitive.color.blue[500],
+
+  /** Text / label layer. */
+  label: {
+    strong:      primitive.color.gray.black,
+    normal:      primitive.color.gray[1000],
+    neutral:     primitive.color.gray[800],
+    alternative: primitive.color.gray[700],
+    assistive:   primitive.color.gray[400],
+    disabled:    primitive.color.gray[300],
+    white:       primitive.color.gray.white, // Figma chain: label-white → Icon-white → gray.white
   },
+
+  /** Fill (muted surfaces for chips, segmented controls, etc.). */
+  fill: {
+    normal:      primitive.color.coolgray[98], // Figma: `fill- strong` lookalike — source says `fill-nomal`
+    strong:      primitive.color.coolgray[96],
+    alternative: primitive.color.coolgray[99],
+  },
+
+  /** Line / border. */
+  line: {
+    normal:      primitive.color.coolgray[95],
+    neutral:     primitive.color.coolgray[97],
+    alternative: primitive.color.coolgray[99],
+  },
+
+  /** Interaction states. */
+  interaction: {
+    Inactive: primitive.color.coolgray[70], // Figma caps: `Interaction-Inactive`
+    Disable:  primitive.color.coolgray[98],
+  },
+
+  /** Icon layer. */
+  icon: {
+    strong:      primitive.color.gray[1000],
+    default:     primitive.color.gray[800],
+    alternative: primitive.color.gray[700],
+    Disable:     primitive.color.gray[600], // Figma caps: `Icon-Disable`
+    white:       primitive.color.gray.white,
+  },
+
+  /** Status colors. */
+  status: {
+    success: primitive.color.green[500],
+    warning: primitive.color.orange[500],
+    error:   primitive.color.red[500],
+    info:    primitive.color.green[100],
+  },
+
+  /** OS chrome. */
+  "OS-Indicator": primitive.color.gray[1000],
 } as const;
 
-/** Spacing in px (DS-C1). */
+/* ------------------------------------------------------------------ */
+/* V3. Spacing & Sizing                                               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Primitive spacing steps (20 values). 4px → 80px in 4px increments.
+ * Figma group: `Primitive(spacing)`. Keys match the Figma names.
+ * Prefer the semantic aliases below (padding/margin/radius/height).
+ */
 export const spacing = {
-  xs: "4px",
-  sm: "8px",
-  md: "16px",
-  lg: "24px",
-  xl: "32px",
-  "2xl": "48px",
+  "spacing-1":  "4px",
+  "spacing-2":  "8px",
+  "spacing-3":  "12px",
+  "spacing-4":  "16px",
+  "spacing-5":  "20px",
+  "spacing-6":  "24px",
+  "spacing-7":  "28px",
+  "spacing-8":  "32px",
+  "spacing-9":  "36px",
+  "spacing-10": "40px",
+  "spacing-11": "44px",
+  "spacing-12": "48px",
+  "spacing-13": "52px",
+  "spacing-14": "56px",
+  "spacing-15": "60px",
+  "spacing-16": "64px",
+  "spacing-17": "68px",
+  "spacing-18": "72px",
+  "spacing-19": "76px",
+  "spacing-20": "80px",
 } as const;
+
+export const padding = {
+  xxs: spacing["spacing-1"], //  4
+  xs:  spacing["spacing-2"], //  8
+  s:   spacing["spacing-3"], // 12
+  m:   spacing["spacing-4"], // 16
+  l:   spacing["spacing-6"], // 24
+  xl:  spacing["spacing-8"], // 32
+} as const;
+
+export const margin = {
+  xs:  spacing["spacing-1"],  //  4
+  s:   spacing["spacing-2"],  //  8
+  sm:  spacing["spacing-3"],  // 12
+  m:   spacing["spacing-4"],  // 16
+  l:   spacing["spacing-6"],  // 24
+  xl:  spacing["spacing-10"], // 40
+  xxl: spacing["spacing-20"], // 80
+} as const;
+
+export const radius = {
+  none: "0px",
+  xxs:  spacing["spacing-1"], //  4
+  xs:   spacing["spacing-2"], //  8
+  s:    spacing["spacing-3"], // 12
+  m:    spacing["spacing-5"], // 20
+  l:    spacing["spacing-6"], // 24
+  full: "999px",
+} as const;
+
+export const height = {
+  s: spacing["spacing-6"],  // 24
+  m: spacing["spacing-9"],  // 36
+  l: spacing["spacing-12"], // 48
+} as const;
+
+/* ------------------------------------------------------------------ */
+/* V5. Typography (tier-dependent sizes/line-heights via CSS vars)    */
+/* ------------------------------------------------------------------ */
 
 /**
  * Typography (DS-C2 / DS-C3).
@@ -51,8 +176,7 @@ export const spacing = {
  * is automatically 36px at 일반보기, 40px at 크게보기, 44px at 더크게보기,
  * multiplied by the user's own system font-size preference (rem).
  *
- * `weight` and `family` are static for now — Phase 0.1 will finalize once
- * the Font Weights and Font Family groups are audited.
+ * `weight` / `letterSpacing` / `fontFamily` are tier-invariant static values.
  */
 export const typography = {
   size: {
@@ -60,41 +184,34 @@ export const typography = {
     "4xl": "var(--font-size-4xl)",
     "3xl": "var(--font-size-3xl)",
     "2xl": "var(--font-size-2xl)",
-    xl: "var(--font-size-xl)",
-    lg: "var(--font-size-lg)",
-    md: "var(--font-size-md)",
-    sm: "var(--font-size-sm)",
-    xs: "var(--font-size-xs)",
+    xl:    "var(--font-size-xl)",
+    lg:    "var(--font-size-lg)",
+    md:    "var(--font-size-md)",
+    sm:    "var(--font-size-sm)",
+    xs:    "var(--font-size-xs)",
   },
   lineHeight: {
     "5xl": "var(--line-height-5xl)",
     "4xl": "var(--line-height-4xl)",
     "3xl": "var(--line-height-3xl)",
     "2xl": "var(--line-height-2xl)",
-    xl: "var(--line-height-xl)",
-    lg: "var(--line-height-lg)",
-    md: "var(--line-height-md)",
-    "md-1": "var(--line-height-md-1)",
-    sm: "var(--line-height-sm)",
-    xs: "var(--line-height-xs)",
+    xl:    "var(--line-height-xl)",
+    lg:    "var(--line-height-lg)",
+    md:    "var(--line-height-md)",
+    "md-1":"var(--line-height-md-1)",
+    sm:    "var(--line-height-sm)",
+    xs:    "var(--line-height-xs)",
   },
-  /** Font weights are tier-invariant (Figma Font Weights group). */
+  /** Figma: Font Weights group — tier-invariant. */
   weight: {
-    bold: 700,      // Figma: Font Weight B
-    semibold: 600,  // Figma: Font Weight SB
-    medium: 500,    // Figma: Font Weight M
-    regular: 400,   // Figma: Font Weight R
-    light: 300,     // Figma: Font Weight L
+    B:  700, // Figma: `Font-Weight-B`  (Bold)
+    SB: 600, // Figma: `Font-Weight-SB` (Semibold)
+    M:  500, // Figma: `Font-Weight-M`  (Medium)
+    R:  400, // Figma: `Font-Weight-R`  (Regular)
+    L:  300, // Figma: `Font-Weight-L`  (Light)
   },
-  /** Letter spacing is tier-invariant; DS defines a single 0 value. */
-  letterSpacing: "0",
-  /** Font family is tier-invariant; DS mandates Pretendard. */
+  /** Figma: Letter Spacing group — tier-invariant, single 0 value. */
+  letterSpacing: "0px",
+  /** Figma: Font Family group — tier-invariant. */
   fontFamily: '"Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif',
-} as const;
-
-export const radius = {
-  sm: "4px",
-  md: "8px",
-  lg: "12px",
-  full: "9999px",
 } as const;

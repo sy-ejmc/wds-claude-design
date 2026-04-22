@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { color, spacing, typography, radius } from "@wds/tokens";
+import { color, padding, radius, typography } from "@wds/tokens";
 
 type Variant = "primary" | "secondary";
 
@@ -11,15 +11,16 @@ export interface ButtonProps {
 }
 
 /**
- * WDS Button — canonical primary action control.
+ * WDS Button — canonical action control.
  *
- * All visual values come from @wds/tokens (the alias layer). No hex
- * codes, no px values, no rem values are inlined in this file.
+ * Every visual value comes from @wds/tokens (the alias layer). No hex,
+ * no px, no rem are inlined in this file. Primary variant uses the
+ * brand `color.primary` palette (green in WDS). Secondary uses a
+ * neutral surface with a line border.
  *
- * Works automatically across the 3-tier typography scale (DS-C3).
- * `typography.size.md` resolves to `var(--font-size-md)` which is swapped
- * on <html data-typography-scale>, so the button font scales with the
- * user's active tier without any code change here.
+ * Works across the 3-tier typography scale (DS-C3) automatically:
+ * `typography.size.md` and `typography.lineHeight.md` are CSS custom
+ * properties that the root swaps per tier (see @wds/tokens/scale.css).
  */
 export function Button({
   variant = "primary",
@@ -27,19 +28,25 @@ export function Button({
   disabled = false,
   children,
 }: ButtonProps) {
+  const isPrimary = variant === "primary";
+
   const style: CSSProperties = {
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    paddingBlock: spacing.sm,
-    paddingInline: spacing.lg,
+    paddingBlock: padding.xs,
+    paddingInline: padding.l,
+    fontFamily: typography.fontFamily,
     fontSize: typography.size.md,
     lineHeight: typography.lineHeight.md,
-    fontWeight: typography.weight.medium,
-    borderRadius: radius.md,
-    border: `1px solid ${variant === "primary" ? color.bg.accent : color.border.default}`,
-    backgroundColor: variant === "primary" ? color.bg.accent : color.bg.surface,
-    color: variant === "primary" ? color.text.inverse : color.text.primary,
+    fontWeight: typography.weight.M,
+    letterSpacing: typography.letterSpacing,
+    borderRadius: radius.m,
+    border: `1px solid ${isPrimary ? color.primary.normal : color.line.normal}`,
+    backgroundColor: isPrimary
+      ? color.primary.normal
+      : color.background["bg-white"],
+    color: isPrimary ? color.label.white : color.label.normal,
     cursor: disabled ? "not-allowed" : "pointer",
     opacity: disabled ? 0.5 : 1,
   };

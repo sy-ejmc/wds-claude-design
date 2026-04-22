@@ -5,8 +5,8 @@ WDS (우리가 Design System) React components.
 ## Consumption pattern
 
 Every component imports tokens via **`@wds/tokens`** — the alias layer.
-Never inline hex codes or px values. Never import from `@wds/tokens/primitive`
-directly; the primitive layer is an internal implementation detail.
+Never inline hex codes, px, or rem values. Never import from the
+primitive layer directly; it's an internal implementation detail.
 
 ```tsx
 import { Button } from "@wds/ui";
@@ -24,19 +24,45 @@ export default function Page() {
 
 ## Tokens
 
+Names mirror Figma exactly (group → variable). Hyphenated keys use
+bracket notation (`["bg-white"]`).
+
 ```tsx
-import { color, spacing, typography, radius } from "@wds/tokens";
+import { color, padding, margin, radius, height, typography } from "@wds/tokens";
 
-// color.text.primary / color.bg.surface / color.border.accent ...
-// spacing.xs | sm | md | lg | xl | 2xl                (px-based, DS-C1)
-// typography.size.5xl | 4xl | … | md | sm | xs        (rem-based, DS-C2/C3)
-// typography.lineHeight.5xl | 4xl | … | md | md-1
-// radius.sm | md | lg | full
+// Color aliases (V2)
+color.primary.normal            // green-500 — brand / CTA
+color.primary.light             // green-100
+color.primary.strong            // green-700
+color.primary.heavy             // green-900
+color.background["bg-white"]    // neutral white
+color.background["bg-50"]       // gray-50
+color.label.strong              // black
+color.label.normal              // gray-1000 — body text default
+color.label.alternative         // gray-700
+color.label.white               // white (dark-on-light inverse)
+color.fill.normal               // coolgray-98 — muted surface
+color.fill.strong               // coolgray-96
+color.line.normal               // coolgray-95 — border default
+color.icon.strong               // gray-1000
+color.icon.Disable              // gray-600
+color.status.success / warning / error / info
+color.interaction.Inactive / Disable
+color["OS-Indicator"]
+
+// Spacing & sizing aliases (V3) — px, DS-C1
+padding.xxs | xs | s | m | l | xl    //  4 /  8 / 12 / 16 / 24 / 32
+margin.xs | s | sm | m | l | xl | xxl //  4 /  8 / 12 / 16 / 24 / 40 / 80
+radius.none | xxs | xs | s | m | l | full  // 0 / 4 / 8 / 12 / 20 / 24 / 999
+height.s | m | l                      // 24 / 36 / 48
+
+// Typography (V5)
+typography.size["5xl" ... "xs"]       // rem, tier-swapped (DS-C2/C3)
+typography.lineHeight["5xl" ... "xs"] // rem, tier-swapped
+typography.weight.B / SB / M / R / L  // 700 / 600 / 500 / 400 / 300
+typography.letterSpacing              // "0px"
+typography.fontFamily                 // Pretendard stack
 ```
-
-Typography tokens resolve to `var(--font-size-*)` / `var(--line-height-*)`
-so each tier (normal / large / x-large) swaps the actual value at the root.
-Components do not branch on tier — they just read the token.
 
 ## Typography 3-tier scale (DS-C3)
 
@@ -50,7 +76,7 @@ Our service targets elderly users. Users can switch between three tiers:
 | `4xl`   | 32   | 36   | 40   |
 | `3xl`   | 28   | 32   | 36   |
 | `md`    | 16   | 18   | 20   |
-| …       | …    | …    | …    |
+| `xs`    | 12   | 14   | 16   |
 
 Mechanism: each token is a CSS custom property (`--font-size-5xl`, etc.),
 and the three tiers are defined in `@wds/tokens/scale.css` under

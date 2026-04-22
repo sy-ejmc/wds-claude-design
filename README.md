@@ -80,9 +80,9 @@ Good:
 
 ```tsx
 import { Button } from "@wds/ui";
-import { spacing } from "@wds/tokens";
+import { padding, color } from "@wds/tokens";
 
-<main style={{ padding: spacing.xl }}>
+<main style={{ padding: padding.xl, background: color.background["bg-white"] }}>
   <Button>확인</Button>
 </main>
 ```
@@ -91,5 +91,5 @@ Bad (do not do this):
 
 ```tsx
 // ❌ Inlined hex — bypasses the alias layer
-<button style={{ background: "#3b8fff", padding: "16px" }}>확인</button>
+<button style={{ background: "#067DFD", padding: "16px" }}>확인</button>
 ```
