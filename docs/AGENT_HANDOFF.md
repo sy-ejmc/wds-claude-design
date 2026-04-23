@@ -1,7 +1,7 @@
-# WDS — Agent Handoff (Phase 2)
+# WDS — Agent Handoff (Phase 2 → Phase 3)
 
-**Last updated:** 2026-04-23 (commit `e7ece3e`)
-**Audience:** a fresh AI agent picking up Phase 2 component implementation.
+**Last updated:** 2026-04-23 (commit `ed1fa77`)
+**Audience:** a fresh AI agent picking up work after Phase 2 component coverage.
 **Read this top-to-bottom once, then skim before each work session.**
 
 ---
@@ -10,9 +10,8 @@
 
 - **Project:** WDS — 우리가 Design System. Target = Korean elderly-focused service.
 - **Repo:** https://github.com/sy-ejmc/wds-claude-design (local at `/Users/kimsuyeon/ejmc/wds-claude-design`).
-- **Phase:** 2 — component coverage expansion. Phase 1 MVP is closed (user explicitly scoped V4 Screen + dev-server deploy OUT).
+- **Phase status:** **Phase 2 component catalogue is SHIPPED.** All seven published category frames (Cards / Filters / Navigation / Feedback / Media / Banner / Popup) are implemented. Phase 1 MVP is closed (V4 Screen + dev-server deploy were explicitly scoped OUT).
 - **Method:** implement Figma components one node at a time via the `claude_ai_Figma` MCP. **Do not port Claude Design's JSX catalogue;** read Figma source directly.
-- **Blocker:** Claude Design session limit won't reset until next week. The user and this agent work alone until then.
 
 **Before you resume any work, read:**
 1. This file (`docs/AGENT_HANDOFF.md`).
@@ -21,7 +20,7 @@
 
 ---
 
-## 1. Completed components (as of commit `e7ece3e`)
+## 1. Completed components (as of commit `ed1fa77`)
 
 ### Primitives — WDS-invented, not in Figma
 | Component | File | Notes |
@@ -59,82 +58,83 @@
 | `Separator` | `3001:19884` | `Separator.tsx` | line (1px) or space (8px) divider |
 | `SectionHeader` | `5015:33255` | `SectionHeader.tsx` | page section title + optional action text / chevron / trailing slot |
 | `NotificationList` | `5015:33367` | `NotificationList.tsx` | unread / read / text / highlight variants; leading icon + title/subtext + trailingTime + category\|time meta |
-| `Badge` | `3001:20108` | `Badge.tsx` | neutral / primary / success / warning / error tones. **NOTE**: Figma publishes a much larger variant matrix (Fill/Ghost/Neutral × S/M/L × 7 states × Square/Default) — current impl is a subset; expand during the Feedback batch. |
 | `Accordion` | `5015:34536` | `Accordion.tsx` | controlled or uncontrolled disclosure; `line` / `wrapper` variants, optional Badge next to title |
 
-### Pre-MCP holdouts (not yet rewritten from Figma)
+### Navigation — all 3 Figma navigation nodes
+| Component | Figma node | File | Notes |
+|---|---|---|---|
+| `NavigationBar` | `3001:19633` | `NavigationBar.tsx` | 8-variant Figma matrix collapsed to 4 props (`onBack` / `title` / `large` / `transparent` + free `actions` trailing slot) |
+| `SearchBar` | `3001:19687` | `SearchBar.tsx` | Default / Back / Cancel × Default / Filled. `onClear` fires close-big affordance when filled |
+| `TabBar` | `3001:19725` | `TabBar.tsx` | bottom nav, consumer controls via `activeKey` + `items[]`. Optional 28px `activeIcon` per tab. Home indicator pill toggle |
+
+### Cards + Filters — all 8 nodes
+| Component | Figma node | File | Notes |
+|---|---|---|---|
+| `CardLayout` | `3001:19150` | `CardLayout.tsx` | image+text card, 4 variants (featured / half / third / slide). Distinct from the generic pre-MCP `Card` surface |
+| `Tabs` | `3001:20034` + `3001:20023` | `Tabs.tsx` | in-page tablist, default / space-between / flexible grids. APG keyboard (arrows / Home / End). Tab-item filter cell composed inside |
+| `Chip` | `3001:20067` / `7317:47247` | `Chip.tsx` | 5 states (default / active / active_neutral / selected / disabled), optional leading / trailing icon + trailing chevron |
+| `Checkbox` | `3001:19447` | `Checkbox.tsx` | multi-select; label color shifts off→on per Figma spec |
+| `Radio` | `3001:19447` | `Radio.tsx` | single-select; standard row OR `scoreMode` (label above indicator) for rating scales |
+| `GridSettings` | `5018:38664` | `GridSettings.tsx` | list/grid segmented toggle with section title. Icons supplied by consumer |
+| `AlignmentTool` | `3001:20087` | `AlignmentTool.tsx` | sort trigger + optional filter toggle; primary.normal tint when `checked` |
+
+### Feedback — all 5 nodes shipped; `Empty-graphic` illustrations intentionally deferred
+| Component | Figma node | File | Notes |
+|---|---|---|---|
+| `Spinner` | `3001:20289` | `Spinner.tsx` | Replaces Figma's 3 static animation frames with a single CSS-animated SVG. M(48) / S(20) sizes. Respects `prefers-reduced-motion` (slows to 2.4s/rev). `@keyframes wds-spin` lives in `ui.css` |
+| `EmptyMessage` | `21474:3298` | `EmptyMessage.tsx` | 96px graphic slot + title + description + optional brand-tinted footnote (Figma `점검시간` variant) |
+| `Progress` | `3001:20203` | `Progress.tsx` | Supersedes Figma's 4 discrete steps — accepts continuous 0-100; `line` (280×4 fluid) or `circle` (48px ring). Full aria-progressbar |
+| `Tooltip` | `7238:79859` | `Tooltip.tsx` | Alpha-80 dark tip bubble with 4-direction tail. Visual-only; positioning is the consumer's job per Phase 2 DIY |
+| `Badge` | `3001:20108` | `Badge.tsx` | **Expanded** from the initial 5-tone shortcut to the full Figma matrix: `appearance` (fill / ghost / neutral) × `size` (S/M/L) × `tone` (default/color/white/info/warning/error/attribute/done) × `shape` (pill / square). Legacy tone aliases kept for back-compat |
+
+### Media — all 4 Figma media nodes
+| Component | Figma node | File | Notes |
+|---|---|---|---|
+| `Avatar` | `3001:20249` | `Avatar.tsx` | 7 sizes (XL-120 / L-96 / M-64 / S-48 / XS-36 / XS28 / XXS-24), `round` / `circle` shapes, image `src` or `name` monogram fallback, optional `badge` slot |
+| `AvatarBadge` | `7002:6143` | `AvatarBadge.tsx` | `icon` / `online` / `offline` types × L/M/S sizes. Composes on top of Avatar via its `badge` slot |
+| `Image` | `3001:20264` | `Image.tsx` | radius (none / small / medium / medium-top / full) × img or placeholder. Accepts number or `{width, height, aspectRatio}` |
+| `MapMarker` | `3001:20187` | `MapMarker.tsx` | 6 published types (startMarker / geoPoint / numberedPin / currentLocation / locationInfo / location). Pin silhouettes rendered as inline SVG so tints re-skin cleanly |
+
+### Banner + Popup — all 4 shipped (1 node genuinely empty + scoped out)
+| Component | Figma node | File | Notes |
+|---|---|---|---|
+| `CarouselIndicator` | `7022:29271` (also exposed via `5018:35099`) | `CarouselIndicator.tsx` | bar / circle / activeLine / numeric types × color / dark / light themes. Consumer passes `total` + `active`; the active cell is styled per type (bar: opaque rect; circle: opaque dot; activeLine: expanded pill) |
+| `Modal` | `14348:16114` | `Modal.tsx` | centered confirmation dialog. Two patterns collapse to one: `confirm` (title + description + 2-button row) vs `content` (long-form body + single full-width confirm). Scrim + Escape fire `onClose` |
+| `BottomSheet` | `15694:14426` / `18029:6837` | `BottomSheet.tsx` | bottom-anchored mobile sheet, rounded-top 20px. Four Figma header variants covered by `title` + `subtitle` + `showClose` props; body is a free slot |
+| `Toast` | `21327:981` (mobile) / `22268:5740` (PC) | `Toast.tsx` | alpha-60 pill with warning / info / neutral tones × mobile / desktop sizing. Visual only — positioning + auto-dismiss is the consumer's job |
+
+### Pre-MCP holdouts (not rewritten from Figma)
 | Component | File | Notes |
 |---|---|---|
-| `Card` | `Card.tsx` | pre-MCP; basic flat surface, `tinted` variant. Figma publishes `Card Layouts` as a full catalogue (`3001:19150`, 4 variants). **Rewrite during the Cards batch.** |
+| `Card` | `Card.tsx` | pre-MCP; basic flat surface, `tinted` variant. **Kept** as the generic container (playground consumes it). Distinct from `CardLayout`, which is the Figma image+text card. Decision deferred: keep as a non-Figma primitive, or rename to `Surface` to separate roles explicitly. |
 | `ScaleSwitcher` | `ScaleSwitcher.tsx` | DS-C3 control; full WAI-ARIA Tabs pattern. Not a Figma-published component. Leave as-is. |
 
-**Total shipped as of `e7ece3e`:** 22 Figma-catalogued components + 3 primitives + 1 a11y control + `Card` (pre-MCP).
+**Total shipped as of `ed1fa77`:** 44 Figma-catalogued components + 3 primitives + 2 non-Figma primitives (`Card`, `ScaleSwitcher`).
 
 ---
 
-## 2. Remaining components (7 category frames, ~25 sub-nodes)
+## 2. Phase 2 status — DONE
 
-The full design system has far more components than the initial `figma-refs.md` subset. The user has now pointed us at 7 additional category frames. Enumerated 2026-04-23 via `get_metadata`; one category (`popup`) failed with a session-expired MCP error and still needs enumeration.
+All 7 category frames from `figma-refs.md` (cards / filters / navigation / feedback / media / banner / popup) are shipped across 6 commits:
 
-### Batch plan (ordered by user-visible priority)
-
-#### 1. Navigation batch — `5014:27496`
-| id | Name | Figma node | Variants |
-|---|---|---|---|
-| N1 | `Navigation Bar` | `3001:19633` | 8 variants — Back-Text-Confirm / Back-Text-Actions / Text-Tab / Text-Actions × Title Default/Large × Style Default/Transparent |
-| N2 | `Search Bars` | `3001:19687` | Default / Back / Cancel × Default / Filled |
-| N3 | `Tab Bars` | `3001:19725` | Type 01–05 (bottom tab bar variants) + `Tab-item` (Default / Active) |
-
-#### 2. Cards + Filters batch — `5013:27199`, `5013:27196`
-| id | Name | Figma node | Variants |
-|---|---|---|---|
-| C1 | `Card Layouts` | `3001:19150` | Type 1단 / 2단 / 3단 / 슬라이드형. **Rewrite existing `Card.tsx` here.** |
-| T1 | `Tabs` | `3001:20034` | Grid Default / Space-between / Flexible / No-line |
-| T2 | `Tab-item` (filter cells) | `3001:20023` | States Default / Active × Color Light / Primary (top-tab cells) |
-| T3 | `Chips` | `7317:47247` | Layout Default / Neutral / Wrap |
-| T4 | `Chip-item` | `3001:20067` | State active / active_neutral / selected / default / disabled |
-| T5 | `Checkboxes & Radio Buttons` | `3001:19447` | Check(On/Off) + Radio(On/Off) + Radio_score(On/Off). Radio partial already inside `SegmentedControl`/`MenuList`; extract into a first-class `Checkbox` + `Radio` here. |
-| T6 | `GridSettings` | `5018:38664` | List / Grid segmented control |
-| T7 | `Alignment Tool` | `3001:20087` | States Default / Checked |
-
-#### 3. Feedback batch — `5014:27498`
-| id | Name | Figma node | Variants |
-|---|---|---|---|
-| FB1 | `Loading-circle` | `3001:20289` | Property 1/2/3 × Size M (48px) / S (20px) — 3 animation phases |
-| FB2 | `Empty-message` | `21474:3298` | Default / 점검시간 message layouts |
-| FB3 | `Empty-graphic` | `3003:17078` | 16 illustration variants (Cloud, ConnectionError, NoPicture, survey, end, ...). Ship as an asset-only component that accepts `variant` and renders inline SVG or `<img>`. |
-| FB4 | `linear-progress-indicator` | `3001:20203` | Line (25/50/75/100%) + Circle (25/50/75/100%) |
-| FB5 | `Badge` expansion | `3001:20108` | **Replace current simple Badge with full matrix:** Style Fill/Ghost/Neutral × Size S/M/L × State Default/Color/White/info/Warning/Error/Attribute/Done × Square Default/Square. This supersedes the minimal Badge shipped in the L4 batch. |
-| FB6 | `Tooltip` | `7238:79859` | Tail Up / Left / Right / Down. Phase 2 DIY — no Radix; use simple absolute positioning with `aria-describedby`. |
-
-#### 4. Media batch — `5015:34218`
-| id | Name | Figma node | Variants |
-|---|---|---|---|
-| M1 | `Avatar` | `3001:20249` | Size XL(120)/L(96)/M(64)/S(48)/XS(36)/XS(28)/XXS(24) × Round (square-ish w/ big radius) / Circle × Image / Name (2-letter monogram fallback) |
-| M2 | `Avatar-Badge` | `7002:6143` | Icon / Color dot Online / Color dot Offline × Size L/M/S. Renders on top of an Avatar via absolute positioning — expose as a separate atom so it can be composed. |
-| M3 | `Image` | `3001:20264` | radius None/Small/Medium/Medium-Top/50% × img / img-placeholder. Thin wrapper around `<img>` with aspect-ratio + radius props. |
-| M4 | `Map Markers` | `3001:20187` | StartMarker / GeoPoint / NumberedPin / CurrentLocation / LocationInfo / Location. These are SVG-heavy; may live in `packages/ui` only as typed wrappers with the inline SVG shipped as a const. |
-
-#### 5. Banner + Popup batch — `5015:34713`, `11331:9987`
-| id | Name | Figma node | Variants |
-|---|---|---|---|
-| BN1 | `carousel-indicator` | `7022:29271` | Type Bar / Circle / activeLine × Theme Color / Dark / Light, plus Numeric Indicator |
-| BN2 | Banner Ads | `7232:23009` | Frame appears to be an empty container at the catalogue level — verify before implementing. May be a host-app composition rather than a published DS component. |
-| P?? | Popup (TBD) | `11331:9987` | **Not yet enumerated — MCP `get_metadata` failed twice with session-expired.** Retry first thing in the next session. From other batches we saw popup-specific sub-components referenced (`Label` inside Filters category — `12463:14344` — appears to belong here). |
-
-### Category URLs (for copy-paste into `get_design_context`)
-
-| Category | Top-level node | URL |
+| Batch | Commit | Components added |
 |---|---|---|
-| Cards | `5013:27199` | https://www.figma.com/design/7FIuz015lUzocnw6oSHSoM/WDS_%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C?node-id=5013-27199&m=dev |
-| Filters/Checkbox/Chip/Tab | `5013:27196` | https://www.figma.com/design/7FIuz015lUzocnw6oSHSoM/WDS_%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C?node-id=5013-27196&m=dev |
-| Navigation | `5014:27496` | https://www.figma.com/design/7FIuz015lUzocnw6oSHSoM/WDS_%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C?node-id=5014-27496&m=dev |
-| Feedback | `5014:27498` | https://www.figma.com/design/7FIuz015lUzocnw6oSHSoM/WDS_%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C?node-id=5014-27498&m=dev |
-| Media | `5015:34218` | https://www.figma.com/design/7FIuz015lUzocnw6oSHSoM/WDS_%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C?node-id=5015-34218&m=dev |
-| Banner | `5015:34713` | https://www.figma.com/design/7FIuz015lUzocnw6oSHSoM/WDS_%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C?node-id=5015-34713&m=dev |
-| Popup | `11331:9987` | https://www.figma.com/design/7FIuz015lUzocnw6oSHSoM/WDS_%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C?node-id=11331-9987&m=dev |
+| Navigation | `f9fda92` | NavigationBar, SearchBar, TabBar |
+| Cards + Filters | `e9bb0c1` | CardLayout, Tabs, Chip, Checkbox, Radio, GridSettings, AlignmentTool |
+| Feedback | `8c1745d` | Spinner, EmptyMessage, Progress, Tooltip + Badge matrix expansion |
+| Media | `afc04f9` | Avatar, AvatarBadge, Image, MapMarker |
+| Banner | `89bbca7` | CarouselIndicator |
+| Popup | `ed1fa77` | Modal, BottomSheet, Toast |
 
-**Explicitly OUT of Phase 2:** `system OS` (`3001:19025`) — StatusBar / HomeIndicator / CellularConnection etc. are Figma mock aids, not app-consumer components. Skip unless user overrides.
+**Intentionally not shipped:**
+
+| Item | Reason |
+|---|---|
+| `Empty-graphic` — 16 illustrations (`3003:17078`) | The illustrations are marketing assets, not UI primitives. `EmptyMessage` accepts a `graphic` slot; consumers pass whichever artwork is relevant. Revisit if/when brand ships an official SVG set. |
+| Banner Ads (`7232:23009`) | User-confirmed empty frame at the catalogue level — host-app composition, not a published DS component. |
+| `system OS` (`3001:19025`) | StatusBar / HomeIndicator / CellularConnection are Figma mock aids, not app-consumer components. User confirmed skip. |
+
+**If a new category frame appears later:** the MCP workflow below still applies. Fetch `get_metadata` on the top-level node to enumerate, then implement each published sub-node in the normal batch pattern.
 
 ---
 
@@ -262,10 +262,12 @@ cd apps/playground && pnpm dev
 |---|---|---|
 | V4 Screen (breakpoints 3종) | intentionally skipped | MVP is single desktop breakpoint. Don't add. |
 | Legacy `Button.tsx` | exists, re-exports BlockButton | Can delete next housekeeping pass. |
+| `Card.tsx` vs `CardLayout.tsx` | both shipped and distinct | `Card` is a generic container, `CardLayout` is the Figma image+text card. Decide Phase 3 whether to rename `Card` → `Surface` for clarity, or leave as-is. |
 | Font triplication — `fonts/`, `packages/assets/fonts/`, `preview/assets/fonts/` | ~40MB redundant | Kept because Claude Design generated it; clean up during Phase 3. |
 | Figma-side typos | known | Pass to designer: `primary-nomal` → `primary-normal`, remove whitespace in `fill- strong` and `Alpha-colors- neutralA-*`. Code side is already normalized. |
-| Inlined hex (gray-100, gray-500, gray-200, gray-900, green-600, blue-50, blue-600, red-50) | flagged in code comments | Opportunity to extend the V2 alias layer with `color.neutral.soft/bold`, `color.status.info/warning`, etc. |
-| `Input.tsx` pre-MCP | written before Figma MCP rewrite-to-source pattern | When starting the Forms catalogue, Figma-align `Input.tsx` via MCP first, then tackle new ones. |
+| Inlined hex (gray-100, gray-200, gray-500, gray-900, green-600, blue-50, blue-500, blue-600, red-50, orange-400, orange-50, purple-50, purple-500, purple-600, coolgray-30) | flagged in code comments | Opportunity to extend the V2 alias layer with `color.neutral.soft/bold`, `color.status.info/warning`, `color.accent.purple/blue`, etc. |
+| Playground showcase not updated | `apps/playground/app/page.tsx` still demos only Input + BlockButton + Card | Add visual smoke tests for the ~40 newly-shipped components so tier-switching and interactions can be eyeballed in the browser. |
+| Focus-trap + portals in Modal / BottomSheet | deliberately DIY | Phase 2 intentionally skipped focus-trap / portal / scroll-lock. When these dialogs hit production pages with interactive content behind them, either add a lightweight focus-trap hook or adopt React Aria Components's `FocusScope` + `OverlayContainer` for just the overlay layer. |
 | npm package publish | not done | Decide Phase 3 whether to publish `@wds/tokens` and `@wds/ui` to a registry so real apps can consume. |
 
 ---
@@ -292,30 +294,41 @@ Inside the repo:
 
 ## 9. First action on resume
 
+Phase 2 catalogue coverage is complete. Default path is **no new Figma work** — check what the user actually asked for, then route:
+
 ```
 1. Verify the repo is clean: `git status`.
-2. Read this file (especially §1 for what's shipped and §2 for the batch plan).
-3. Confirm MCP access: call
-   mcp__claude_ai_Figma__get_design_context({
-     fileKey: "7FIuz015lUzocnw6oSHSoM",
-     nodeId:  "3001:19633",
-     clientFrameworks: "react,nextjs",
-     clientLanguages:  "typescript",
-   })
-   — this fetches `Navigation Bar` (N1) and proves the MCP is reachable.
-4. If Popup was still un-enumerated when you opened the file, retry
-   `get_metadata` for `11331:9987` first and fold the result into §2 Batch 5.
-5. Work through the batches in the §2 order:
-     Batch 1 (Navigation)  — N1 N2 N3
-     Batch 2 (Cards/Filters) — C1 T1 T2 T3 T4 T5 T6 T7
-     Batch 3 (Feedback)    — FB1 FB2 FB3 FB4 FB5 FB6
-     Batch 4 (Media)       — M1 M2 M3 M4
-     Batch 5 (Banner/Popup) — BN1 BN2 P??
-6. Per-component: fetch via MCP → implement → `npx tsc --noEmit` for
-   `packages/ui` and `apps/playground` → update `packages/ui/src/index.ts`.
-7. Commit per-batch (3–8 components per commit). Ask for explicit user OK
-   on the **first** commit of each new session, then subsequent batch
-   commits within the same session are fine.
+2. Read this file (§1 Completed + §7 Known loose ends).
+3. Branch on the user's intent:
+
+   a) "Add component X from Figma" — user pasted a new node URL.
+      → Normal MCP workflow: fetch `get_design_context` →
+        implement → typecheck both packages → update `index.ts`
+        → commit. Confirm first commit of session before pushing.
+
+   b) "Update the showcase" / "demo it in the browser" /
+      "verify in Next.js"
+      → Edit `apps/playground/app/page.tsx` to add visual smoke
+        tests for shipped components. Start the dev server with
+        `(cd apps/playground && pnpm dev)`. Exercise DS-C3 tier
+        switching (`ScaleSwitcher`) while checking layouts.
+
+   c) "Housekeeping" / "cleanup" — pick from §7.
+      Most impactful: (i) delete `Button.tsx` re-export; (ii) resolve
+      the Card vs CardLayout naming question; (iii) extend the V2
+      alias layer with the inlined hexes flagged in component files.
+
+   d) "Phase 3" — no specific component. Likely topics:
+      npm publish of `@wds/tokens` + `@wds/ui`, a proper docs site,
+      focus-trap / portal refactor for Modal + BottomSheet,
+      `Input.tsx` clear-button icon refactor, or font dedup.
+
+4. Every code edit: typecheck both packages before commit.
+     (cd packages/ui && npx tsc --noEmit) \
+       && (cd apps/playground && npx tsc --noEmit)
+
+5. First commit of the session requires explicit user OK.
+   Subsequent batch commits within the same session can proceed.
 ```
 
 Good luck.
