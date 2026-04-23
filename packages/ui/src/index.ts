@@ -34,6 +34,15 @@ export type { GnbButtonProps, GnbButtonVariant } from "./GnbButton";
 export { Input } from "./Input";
 export type { InputProps } from "./Input";
 
+export { TextField } from "./TextField";
+export type { TextFieldProps } from "./TextField";
+
+export { Textarea } from "./Textarea";
+export type { TextareaProps } from "./Textarea";
+
+export { SelectMenu } from "./SelectMenu";
+export type { SelectMenuProps, SelectMenuSize, SelectOption } from "./SelectMenu";
+
 export { Card } from "./Card";
 export type { CardProps } from "./Card";
 
