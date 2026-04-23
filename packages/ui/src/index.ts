@@ -64,6 +64,15 @@ export type { BadgeProps, BadgeTone } from "./Badge";
 export { Accordion } from "./Accordion";
 export type { AccordionProps, AccordionVariant } from "./Accordion";
 
+export { NavigationBar } from "./NavigationBar";
+export type { NavigationBarProps } from "./NavigationBar";
+
+export { SearchBar } from "./SearchBar";
+export type { SearchBarProps } from "./SearchBar";
+
+export { TabBar } from "./TabBar";
+export type { TabBarProps, TabBarItem } from "./TabBar";
+
 export { Card } from "./Card";
 export type { CardProps } from "./Card";
 
