@@ -59,7 +59,7 @@ export { NotificationList } from "./NotificationList";
 export type { NotificationListProps, NotificationVariant } from "./NotificationList";
 
 export { Badge } from "./Badge";
-export type { BadgeProps, BadgeTone } from "./Badge";
+export type { BadgeProps, BadgeTone, BadgeAppearance, BadgeSize, BadgeShape } from "./Badge";
 
 export { Accordion } from "./Accordion";
 export type { AccordionProps, AccordionVariant } from "./Accordion";
@@ -93,6 +93,18 @@ export type { GridSettingsProps, GridSettingsValue } from "./GridSettings";
 
 export { AlignmentTool } from "./AlignmentTool";
 export type { AlignmentToolProps } from "./AlignmentTool";
+
+export { Spinner } from "./Spinner";
+export type { SpinnerProps, SpinnerSize } from "./Spinner";
+
+export { EmptyMessage } from "./EmptyMessage";
+export type { EmptyMessageProps } from "./EmptyMessage";
+
+export { Progress } from "./Progress";
+export type { ProgressProps, ProgressVariant } from "./Progress";
+
+export { Tooltip } from "./Tooltip";
+export type { TooltipProps, TooltipTail } from "./Tooltip";
 
 export { Card } from "./Card";
 export type { CardProps } from "./Card";

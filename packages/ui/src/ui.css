@@ -87,3 +87,17 @@
   /* error focus ring uses a warm halo regardless of keyboard/mouse */
   box-shadow: 0 0 0 3px var(--wds-invalid-ring, rgba(239, 43, 42, 0.2));
 }
+
+/* ---------------------------------------------------------------- */
+/*  Spinner — FB1                                                    */
+/* ---------------------------------------------------------------- */
+@keyframes wds-spin {
+  to { transform: rotate(360deg); }
+}
+.wds-spinner {
+  animation: wds-spin 900ms linear infinite;
+  transform-origin: 50% 50%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wds-spinner { animation-duration: 2400ms; }
+}
