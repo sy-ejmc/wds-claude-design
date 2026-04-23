@@ -121,6 +121,15 @@ export type { MapMarkerProps, MapMarkerType } from "./MapMarker";
 export { CarouselIndicator } from "./CarouselIndicator";
 export type { CarouselIndicatorProps, CarouselIndicatorType, CarouselIndicatorTheme } from "./CarouselIndicator";
 
+export { Modal } from "./Modal";
+export type { ModalProps } from "./Modal";
+
+export { BottomSheet } from "./BottomSheet";
+export type { BottomSheetProps } from "./BottomSheet";
+
+export { Toast } from "./Toast";
+export type { ToastProps, ToastTone, ToastDevice } from "./Toast";
+
 export { Card } from "./Card";
 export type { CardProps } from "./Card";
 
