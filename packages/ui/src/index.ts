@@ -16,6 +16,21 @@ export type { FloatingActionButtonProps, FabSize, FabVariant } from "./FloatingA
 export { InlineButton } from "./InlineButton";
 export type { InlineButtonProps, InlineButtonSize, InlineButtonAppearance } from "./InlineButton";
 
+export { IconButton } from "./IconButton";
+export type { IconButtonProps, IconButtonSize, IconButtonVariant, IconButtonState } from "./IconButton";
+
+export { SegmentedControl } from "./SegmentedControl";
+export type { SegmentedControlProps, SegmentedControlSize, SegmentedControlState } from "./SegmentedControl";
+
+export { InfoButton } from "./InfoButton";
+export type { InfoButtonProps } from "./InfoButton";
+
+export { CtaButton } from "./CtaButton";
+export type { CtaButtonProps, CtaVariant } from "./CtaButton";
+
+export { GnbButton } from "./GnbButton";
+export type { GnbButtonProps, GnbButtonVariant } from "./GnbButton";
+
 export { Input } from "./Input";
 export type { InputProps } from "./Input";
 
