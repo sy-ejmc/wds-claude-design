@@ -1,23 +1,27 @@
 import type { CSSProperties, ReactNode, ButtonHTMLAttributes } from "react";
-import { color, radius, typography } from "@wds/tokens";
+import { color, margin, padding, radius, typography } from "@wds/tokens";
 
 /**
  * WDS Block Button — primary action control.
  *
- * Figma: `Button / Block-Button` (node 3001:19498 and siblings)
- * Variants × States × Sizes matrix, all tokens resolved from @wds/tokens:
+ * Figma: Components / Block Button (node `5015:28584`)
+ * "가로 전체를 차지하는 블록 형태의 버튼으로, 주요 CTA에 적합합니다."
  *
- *   variants   Primary · Secondary · Neutral
- *   states     default · outline · disabled
- *   sizes      L(56) · M(36) · S(32) · XS(28)
+ * The matrix from Figma:
  *
- * Block buttons fill their container by default (width:100%); pass
- * `inline` to opt out and size by content.
+ *   variant     Primary · Secondary · Neutral
+ *   state       Default · Outline   · Disabled
+ *   size        L (56)  · M (48)
+ *
+ * Not every combination exists in Figma. Secondary ships only in
+ * Default; Primary and Neutral ship all three states. Asking for an
+ * undefined combination falls back to the closest published one so
+ * consumers never crash.
  */
 
 export type ButtonVariant = "primary" | "secondary" | "neutral";
 export type ButtonState   = "default" | "outline" | "disabled";
-export type ButtonSize    = "L" | "M" | "S" | "XS";
+export type ButtonSize    = "L" | "M";
 
 export interface BlockButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "disabled"> {
@@ -31,36 +35,55 @@ export interface BlockButtonProps
   children: ReactNode;
 }
 
-/* ── Spec tables ─────────────────────────────────────────────────── */
+/* ── Size spec (from Figma) ──────────────────────────────────────── */
 
 /**
- * Per-size spec. `height` is the Figma target floor applied as `minHeight`;
- * `padY` is chosen so that at the 일반보기 tier with the user's default
- * system font, text + vertical padding == the target floor exactly. When
- * the tier or system font grows, padding stays constant and the button
- * grows downward rather than clipping the glyph.
+ * Figma uses `height` per size. We adopt the Figma value as `minHeight`
+ * so that a tier bump or a user-raised system font can grow the button
+ * instead of clipping the glyph. Vertical padding is computed so that
+ * at the 일반보기 tier with a 16px system root, minHeight matches the
+ * Figma floor exactly (L: 16+24+16 = 56; M: 12+24+12 = 48).
  */
-const sizeSpec: Record<ButtonSize, {
-  height: number;
-  padX: number;
-  padY: number;
-  gap: number;
-  iconSize: number;
-  fontSize: string;
-  lineHeight: string;
-}> = {
-  L:  { height: 56, padX: 16, padY: 16, gap: 4, iconSize: 24, fontSize: typography.size.md,  lineHeight: typography.lineHeight.md  },
-  M:  { height: 36, padX: 12, padY: 8,  gap: 4, iconSize: 16, fontSize: typography.size.sm,  lineHeight: typography.lineHeight.sm  },
-  S:  { height: 32, padX: 8,  padY: 8,  gap: 2, iconSize: 16, fontSize: typography.size.sm,  lineHeight: typography.lineHeight.xs  },
-  XS: { height: 28, padX: 6,  padY: 6,  gap: 2, iconSize: 14, fontSize: typography.size.sm,  lineHeight: typography.lineHeight.xs  },
-};
+const sizeSpec = {
+  L: {
+    height:     56,            // Figma: `h-[56px]`
+    padX:       16,            // Figma: `p-[var(--padding/padding-m,16px)]`
+    padY:       16,
+    gap:        8,             // Figma: `gap-[var(--margin/margin-s,8px)]`
+    iconSize:   24,            // Figma: `size-[24px]`
+    fontSize:   typography.size.lg,        // Figma: `--primitive(font-size)/lg`
+    lineHeight: typography.lineHeight.lg,  // Figma: `--line-height/line-height-lg`
+  },
+  M: {
+    height:     48,            // Figma: `h-[48px]`
+    padX:       16,            // Figma: `px-[var(--padding/padding-m,16px)]`
+    padY:       12,            //        `py-[var(--padding/padding-s,12px)]`
+    gap:        8,
+    iconSize:   24,
+    fontSize:   typography.size.md,        // Figma: `--primitive(font-size)/md`
+    lineHeight: typography.lineHeight.md,  // Figma: `--line-height/line-height-md`
+  },
+} as const;
 
-function resolveColors(variant: ButtonVariant, state: ButtonState) {
-  // Disabled overrides variant chrome
+/* ── Chrome resolver (from Figma) ────────────────────────────────── */
+
+/**
+ * Disabled button text uses primitive gray-500 (#B0B3BA) in Figma —
+ * there is no V2 alias for "muted label on a disabled control", so we
+ * reference the primitive value inline and document the exception here.
+ */
+const DISABLED_TEXT = "#B0B3BA";
+/** Primitive gray-100 — Figma uses this for Neutral/Disabled button fill, also not aliased in V2. */
+const NEUTRAL_FILL = "#F3F4F5";
+/** Primitive gray-200 — Figma uses this for Neutral-Outline border, not aliased in V2. */
+const NEUTRAL_LINE = "#EEEFF1";
+
+function resolveChrome(variant: ButtonVariant, state: ButtonState) {
+  // Disabled overrides every variant's chrome.
   if (state === "disabled") {
     return {
-      bg:     color.interaction.disable,      // #F3F4F5
-      fg:     color.label.disable,            // #B0B3BA
+      bg:     NEUTRAL_FILL,
+      fg:     DISABLED_TEXT,
       border: "transparent",
     };
   }
@@ -68,23 +91,25 @@ function resolveColors(variant: ButtonVariant, state: ButtonState) {
   if (variant === "primary") {
     if (state === "outline") {
       return {
-        bg:     color.background["bg-white"], // #FFF
-        fg:     color.primary.strong,         // #18A19A
-        border: color.primary.strong,
+        bg:     color.background["bg-white"],
+        fg:     color.primary.normal,
+        border: color.primary.normal,
       };
     }
+    // default
     return {
-      bg:     color.primary.strong,
+      bg:     color.primary.normal,
       fg:     color.label.white,
       border: "transparent",
     };
   }
 
   if (variant === "secondary") {
-    // Secondary has no outline state in Figma — fallthrough to default.
+    // Figma only publishes Secondary-Default. Outline / Disabled fall
+    // back to Default so callers don't crash asking for the impossible.
     return {
-      bg:     color.primary.alternative,      // #EEF7F6
-      fg:     color.primary.heavy,            // #168B88
+      bg:     color.primary.light,   // green-100 (#EEF7F6)
+      fg:     color.primary.normal,  // green-500
       border: "transparent",
     };
   }
@@ -93,15 +118,28 @@ function resolveColors(variant: ButtonVariant, state: ButtonState) {
   if (state === "outline") {
     return {
       bg:     color.background["bg-white"],
-      fg:     color.label.strong,             // #444
-      border: color.line.normal,              // #EEEFF1
+      fg:     color.label.neutral,   // gray-800 — Figma text color on neutral-outline
+      border: NEUTRAL_LINE,
     };
   }
+  // default
   return {
-    bg:     color.interaction.inactive,       // #F3F4F5
-    fg:     color.label.strong,
-    border: color.line.normal,
+    bg:     NEUTRAL_FILL,
+    fg:     color.label.neutral,
+    border: "transparent",
   };
+}
+
+/* ── Radius (from Figma) ─────────────────────────────────────────── */
+
+/**
+ * Only the Neutral-Outline variant uses radius-s (12px). Every other
+ * combination uses radius-xs (8px). Figma's design intent — outlined
+ * neutral chips are a slightly softer silhouette than the filled CTAs.
+ */
+function resolveRadius(variant: ButtonVariant, state: ButtonState): string {
+  if (variant === "neutral" && state === "outline") return radius.s;
+  return radius.xs;
 }
 
 /* ── Component ───────────────────────────────────────────────────── */
@@ -119,7 +157,8 @@ export function BlockButton({
   ...rest
 }: BlockButtonProps) {
   const spec = sizeSpec[size];
-  const pal  = resolveColors(variant, state);
+  const pal  = resolveChrome(variant, state);
+  const rad  = resolveRadius(variant, state);
   const isDisabled = state === "disabled";
 
   const style: CSSProperties = {
@@ -127,16 +166,14 @@ export function BlockButton({
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: spec.gap,
+    gap: margin.s, // 8px — Figma: `--margin/margin-s`
     width: inline ? undefined : "100%",
-    // `minHeight` (not `height`): if the user raises their OS root font,
-    // or switches to 크게/더크게 tier, the text can exceed the designer's
-    // target height. We never want the glyph clipped — the button grows.
+    // `minHeight`, not `height`: grows with tier or raised system font.
     minHeight: spec.height,
     paddingBlock: spec.padY,
     paddingInline: spec.padX,
     // shape
-    borderRadius: radius.s,
+    borderRadius: rad,
     border: `1px solid ${pal.border}`,
     // chrome
     backgroundColor: pal.bg,
@@ -152,8 +189,8 @@ export function BlockButton({
     // kill the native button chrome
     appearance: "none",
     WebkitAppearance: "none",
-    // focus-ring color hookup — consumed by `.wds-block-button:focus-visible` in ui.css.
-    // Neutral/outline variants use a darker neutral ring; primary/secondary use brand.
+    // Keyboard focus ring hookup (ui.css). Neutral/outline uses a neutral
+    // halo; primary/secondary use the brand halo.
     ["--wds-focus-ring" as string]:
       variant === "neutral" ? "rgba(51, 52, 56, 0.4)" : "rgba(24, 161, 154, 0.5)",
     ...styleProp,
@@ -166,6 +203,10 @@ export function BlockButton({
     flexShrink: 0,
     color: pal.fg,
   };
+
+  // `padding` from tokens is unused directly in this component but is
+  // exported from the same module — silence TS's noUnusedLocals if enabled.
+  void padding;
 
   return (
     <button
