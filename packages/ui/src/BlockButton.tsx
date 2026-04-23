@@ -33,18 +33,26 @@ export interface BlockButtonProps
 
 /* ── Spec tables ─────────────────────────────────────────────────── */
 
+/**
+ * Per-size spec. `height` is the Figma target floor applied as `minHeight`;
+ * `padY` is chosen so that at the 일반보기 tier with the user's default
+ * system font, text + vertical padding == the target floor exactly. When
+ * the tier or system font grows, padding stays constant and the button
+ * grows downward rather than clipping the glyph.
+ */
 const sizeSpec: Record<ButtonSize, {
   height: number;
   padX: number;
+  padY: number;
   gap: number;
   iconSize: number;
   fontSize: string;
   lineHeight: string;
 }> = {
-  L:  { height: 56, padX: 16, gap: 4, iconSize: 24, fontSize: typography.size.md,  lineHeight: typography.lineHeight.md  },
-  M:  { height: 36, padX: 12, gap: 4, iconSize: 16, fontSize: typography.size.sm,  lineHeight: typography.lineHeight.sm  },
-  S:  { height: 32, padX: 8,  gap: 2, iconSize: 16, fontSize: typography.size.sm,  lineHeight: typography.lineHeight.xs  },
-  XS: { height: 28, padX: 6,  gap: 2, iconSize: 14, fontSize: typography.size.sm,  lineHeight: typography.lineHeight.xs  },
+  L:  { height: 56, padX: 16, padY: 16, gap: 4, iconSize: 24, fontSize: typography.size.md,  lineHeight: typography.lineHeight.md  },
+  M:  { height: 36, padX: 12, padY: 8,  gap: 4, iconSize: 16, fontSize: typography.size.sm,  lineHeight: typography.lineHeight.sm  },
+  S:  { height: 32, padX: 8,  padY: 8,  gap: 2, iconSize: 16, fontSize: typography.size.sm,  lineHeight: typography.lineHeight.xs  },
+  XS: { height: 28, padX: 6,  padY: 6,  gap: 2, iconSize: 14, fontSize: typography.size.sm,  lineHeight: typography.lineHeight.xs  },
 };
 
 function resolveColors(variant: ButtonVariant, state: ButtonState) {
@@ -106,6 +114,7 @@ export function BlockButton({
   leadingIcon,
   trailingIcon,
   children,
+  className,
   style: styleProp,
   ...rest
 }: BlockButtonProps) {
@@ -120,10 +129,14 @@ export function BlockButton({
     justifyContent: "center",
     gap: spec.gap,
     width: inline ? undefined : "100%",
-    height: spec.height,
+    // `minHeight` (not `height`): if the user raises their OS root font,
+    // or switches to 크게/더크게 tier, the text can exceed the designer's
+    // target height. We never want the glyph clipped — the button grows.
+    minHeight: spec.height,
+    paddingBlock: spec.padY,
     paddingInline: spec.padX,
     // shape
-    borderRadius: radius.s, // 8
+    borderRadius: radius.s,
     border: `1px solid ${pal.border}`,
     // chrome
     backgroundColor: pal.bg,
@@ -136,10 +149,13 @@ export function BlockButton({
     letterSpacing: typography.letterSpacing,
     // interaction
     cursor: isDisabled ? "not-allowed" : "pointer",
-    userSelect: "none",
     // kill the native button chrome
     appearance: "none",
     WebkitAppearance: "none",
+    // focus-ring color hookup — consumed by `.wds-block-button:focus-visible` in ui.css.
+    // Neutral/outline variants use a darker neutral ring; primary/secondary use brand.
+    ["--wds-focus-ring" as string]:
+      variant === "neutral" ? "rgba(51, 52, 56, 0.4)" : "rgba(24, 161, 154, 0.5)",
     ...styleProp,
   };
 
@@ -156,12 +172,13 @@ export function BlockButton({
       type="button"
       disabled={isDisabled}
       aria-disabled={isDisabled || undefined}
+      className={["wds-block-button", className].filter(Boolean).join(" ")}
       style={style}
       {...rest}
     >
-      {leadingIcon  && <span style={iconStyle} aria-hidden>{leadingIcon}</span>}
+      {leadingIcon  && <span style={iconStyle} data-icon-slot aria-hidden>{leadingIcon}</span>}
       <span>{children}</span>
-      {trailingIcon && <span style={iconStyle} aria-hidden>{trailingIcon}</span>}
+      {trailingIcon && <span style={iconStyle} data-icon-slot aria-hidden>{trailingIcon}</span>}
     </button>
   );
 }

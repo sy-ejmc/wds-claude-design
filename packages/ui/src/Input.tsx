@@ -79,6 +79,8 @@ export function Input({
         value={value ?? ""}
         disabled={disabled}
         placeholder={placeholder}
+        aria-invalid={error ? true : undefined}
+        className="wds-input"
         onChange={(e: ChangeEvent<HTMLInputElement>) => onChange?.(e.target.value)}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}

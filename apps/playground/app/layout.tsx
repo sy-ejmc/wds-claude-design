@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import "@wds/tokens/reset.css";
 import "@wds/tokens/scale.css";
+import "@wds/ui/ui.css";
 
 export const metadata = {
   title: "WDS Playground",
