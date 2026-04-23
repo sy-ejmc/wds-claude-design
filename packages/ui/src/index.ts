@@ -106,6 +106,18 @@ export type { ProgressProps, ProgressVariant } from "./Progress";
 export { Tooltip } from "./Tooltip";
 export type { TooltipProps, TooltipTail } from "./Tooltip";
 
+export { Avatar } from "./Avatar";
+export type { AvatarProps, AvatarSize, AvatarShape } from "./Avatar";
+
+export { AvatarBadge } from "./AvatarBadge";
+export type { AvatarBadgeProps, AvatarBadgeType, AvatarBadgeSize } from "./AvatarBadge";
+
+export { Image } from "./Image";
+export type { ImageProps, ImageRadius } from "./Image";
+
+export { MapMarker } from "./MapMarker";
+export type { MapMarkerProps, MapMarkerType } from "./MapMarker";
+
 export { Card } from "./Card";
 export type { CardProps } from "./Card";
 
