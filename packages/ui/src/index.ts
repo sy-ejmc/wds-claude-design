@@ -43,6 +43,27 @@ export type { TextareaProps } from "./Textarea";
 export { SelectMenu } from "./SelectMenu";
 export type { SelectMenuProps, SelectMenuSize, SelectOption } from "./SelectMenu";
 
+export { MenuList } from "./MenuList";
+export type { MenuListProps, MenuListVariant } from "./MenuList";
+
+export { Switch } from "./Switch";
+export type { SwitchProps } from "./Switch";
+
+export { Separator } from "./Separator";
+export type { SeparatorProps } from "./Separator";
+
+export { SectionHeader } from "./SectionHeader";
+export type { SectionHeaderProps } from "./SectionHeader";
+
+export { NotificationList } from "./NotificationList";
+export type { NotificationListProps, NotificationVariant } from "./NotificationList";
+
+export { Badge } from "./Badge";
+export type { BadgeProps, BadgeTone } from "./Badge";
+
+export { Accordion } from "./Accordion";
+export type { AccordionProps, AccordionVariant } from "./Accordion";
+
 export { Card } from "./Card";
 export type { CardProps } from "./Card";
 
