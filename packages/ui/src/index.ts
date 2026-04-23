@@ -118,6 +118,9 @@ export type { ImageProps, ImageRadius } from "./Image";
 export { MapMarker } from "./MapMarker";
 export type { MapMarkerProps, MapMarkerType } from "./MapMarker";
 
+export { CarouselIndicator } from "./CarouselIndicator";
+export type { CarouselIndicatorProps, CarouselIndicatorType, CarouselIndicatorTheme } from "./CarouselIndicator";
+
 export { Card } from "./Card";
 export type { CardProps } from "./Card";
 
